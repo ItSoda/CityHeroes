@@ -89,9 +89,13 @@ def process_photo(message, text):
 
 @bot.message_handler(commands=['help'])
 def help(message):
-    text = 'Команды:\n/start - перезапуск бота \n/help - Помощь'
+    text = 'Команды:\n/start - перезапуск бота \n/help - Помощь \n/link - ссылка на наш сайт'
     bot.send_message(message.chat.id, f'Приветствую {message.from_user.first_name}\n \n{text}', parse_mode='html')
 
+
+@bot.message_handler(commands=['link'])
+def link(message):
+    bot.send_message(message.chat.id, "https://red-store.site")
 # @bot.message_handler(content_types=['photo'])
 # def get_photo(message):
 #     markup = types.InlineKeyboardMarkup()

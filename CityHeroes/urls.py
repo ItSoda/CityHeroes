@@ -7,6 +7,8 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+from .yasg import urlpatterns as doc_url
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -20,3 +22,5 @@ urlpatterns = [
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("api/token/blacklist/", TokenBlacklistView.as_view(), name="token_blacklist"),
 ]
+
+urlpatterns += doc_url
