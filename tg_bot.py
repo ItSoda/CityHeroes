@@ -89,28 +89,28 @@ def process_photo(message, text):
 
 @bot.message_handler(commands=['help'])
 def help(message):
-    text = 'Команды: /help - Помощь \n/site - Переход на наш сайт для компов | ссылка для телефонов https://red-store.site/ \n/start - перезапуск бота \nСкидывайте фото - оценка вашего фото'
+    text = 'Команды:\n/start - перезапуск бота \n/help - Помощь'
     bot.send_message(message.chat.id, f'Приветствую {message.from_user.first_name}\n \n{text}', parse_mode='html')
 
-@bot.message_handler(content_types=['photo'])
-def get_photo(message):
-    markup = types.InlineKeyboardMarkup()
-    btn1 = types.InlineKeyboardButton('Our site', url='https://red-store.site')
-    btn2 = types.InlineKeyboardButton('Delete photo', callback_data='delete')
+# @bot.message_handler(content_types=['photo'])
+# def get_photo(message):
+#     markup = types.InlineKeyboardMarkup()
+#     btn1 = types.InlineKeyboardButton('Our site', url='https://red-store.site')
+#     btn2 = types.InlineKeyboardButton('Delete photo', callback_data='delete')
 
-    markup.row(btn1, btn2)
-    markup.add(types.InlineKeyboardButton('edit text', callback_data='edit'))
+    # markup.row(btn1, btn2)
+    # markup.add(types.InlineKeyboardButton('edit text', callback_data='edit'))
     
-    bot.reply_to(message, 'Какое красивое фото', reply_markup=markup)
+    # bot.reply_to(message, 'Какое красивое фото', reply_markup=markup)
 
-# Выполнение запросов 
-@bot.callback_query_handler(func=lambda callback: True)
-def callback_message(callback):
-    if callback.data == 'delete':
-        bot.delete_message(callback.message.chat.id, callback.message.message_id - 1)
+# # Выполнение запросов 
+# @bot.callback_query_handler(func=lambda callback: True)
+# def callback_message(callback):
+#     if callback.data == 'delete':
+#         bot.delete_message(callback.message.chat.id, callback.message.message_id - 1)
 
-    elif callback.data == 'edit':
-        bot.edit_message_text('Edit text ', callback.message.chat.id, callback.message.message_id)
+#     elif callback.data == 'edit':
+#         bot.edit_message_text('Edit text ', callback.message.chat.id, callback.message.message_id)
 
 # Ловит любое сообщение
 @bot.message_handler()
