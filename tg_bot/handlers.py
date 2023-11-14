@@ -114,5 +114,5 @@ def info(message):
     if message.text.lower() == 'id':
         bot.reply_to(message, f'ID: {message.from_user.id}')
 
-def start_bot(self):
+def start_bot():
     bot.polling(non_stop=True)

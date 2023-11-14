@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "cityheroes"
+version = "1.1.0"
+description = "API for CityHeroes Hackathon"
+authors = ["It Soda <nikshchegilskiy@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "4.2"
+djangorestframework = "^3.14.0"
+drf-yasg = "^1.21.7"
+djoser = "^2.2.2"
+pillow = "^10.1.0"
+django-debug-toolbar = "^4.2.0"
+django-environ = "0.10.0"
+django-extensions = "3.2.3"
+django-redis = "5.3.0"
+flake8 = "5.0.4"
+isort = "5.10.1"
+black = "23.10.1"
+psycopg2-binary = "2.9.3"
+redis = "4.6.0"
+celery = "5.3.4"
+yookassa = "2.4.0"
+pytelegrambotapi = "4.13.0"
+drf-extensions = "0.7.1"
+coverage = "7.3.2"
+mysqlclient = "^2.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

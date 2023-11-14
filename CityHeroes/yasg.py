@@ -6,7 +6,7 @@ from rest_framework import permissions
 # autodoc look documentation
 schema_view = get_schema_view(
     openapi.Info(
-        title="CityHeroes API",
+        title="Pogos API",
         default_version="v1",
         description="CityHeroes API",
         license=openapi.License(name="BSD License"),
