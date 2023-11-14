@@ -1,17 +1,9 @@
-import os
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CityHeroes.settings')
-import django
-
-django.setup()
-
-import webbrowser
-
+import asyncio
 import telebot
 from django.conf import settings
 from telebot import types
 
-from tg_bot.models import TG_USER
+from .models import TG_USER
 
 # Вставляем токен бота 
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
@@ -122,6 +114,5 @@ def info(message):
     if message.text.lower() == 'id':
         bot.reply_to(message, f'ID: {message.from_user.id}')
 
-
-# Установка вебхука
-bot.polling(non_stop=True)
+def start_bot(self):
+    bot.polling(non_stop=True)
