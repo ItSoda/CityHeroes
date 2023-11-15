@@ -1,8 +1,9 @@
 from rest_framework.generics import CreateAPIView
-from .serializers import FormAnimalSerializer
 from rest_framework.permissions import IsAuthenticated
 
+from .serializers import FormAnimalSerializer
 
-class FormAnimalCreateAPIView(CreateAPIView):
+
+class FormAnimalsCreateAPIView(CreateAPIView):
     serializer_class = FormAnimalSerializer
     permission_classes = (IsAuthenticated,)

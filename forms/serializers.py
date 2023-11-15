@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from animals.models import Animal
 
-from users.models import User
-from .models import FormAnimal
+from .models import FormAnimals
 
 
 class FormAnimalSerializer(serializers.ModelSerializer):
@@ -10,14 +8,14 @@ class FormAnimalSerializer(serializers.ModelSerializer):
     user = serializers.IntegerField(write_only=True)
 
     class Meta:
-        model = FormAnimal
+        model = FormAnimals
         fields = "__all__"
 
     def create(self, validated_data):
         user_id = validated_data.pop("user")
         animal_id = validated_data.pop("animal")
 
-        instance = FormAnimal.objects.create(
+        instance = FormAnimals.objects.create(
             user_id=user_id, animal_id=animal_id, **validated_data
         )
 

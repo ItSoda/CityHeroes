@@ -39,10 +39,10 @@ class EmailVerificationHandler:
         self.email = email
 
     def proccess_email_verification(self):
-        from users.models import EmailVerification, User
+        from users.models import EmailVerifications, Users
 
-        user = get_object_or_404(User, email=self.email)
-        email_verifications = EmailVerification.objects.filter(
+        user = get_object_or_404(Users, email=self.email)
+        email_verifications = EmailVerifications.objects.filter(
             code=self.code, user=user
         )
         try:
@@ -65,9 +65,9 @@ def check_last_first_name(request):
 
 
 def user_update_first_last_name(user_id, request):
-    from users.models import User
+    from users.models import Users
 
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(Users, id=user_id)
     user.first_name = request.data["first_name"]
     user.last_name = request.data["last_name"]
     user.save()

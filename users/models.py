@@ -8,12 +8,15 @@ from .managers import CustomUserManager
 
 
 # User Model
-class User(AbstractUser):
+class Users(AbstractUser):
+    """Model for one Users"""
+
     username = None
     email = models.EmailField(unique=True)
     is_verified_email = models.BooleanField(default=False)
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
+    image = models.ImageField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -28,9 +31,11 @@ class User(AbstractUser):
         return f"Пользователь {self.email} | {self.first_name}"
 
 
-class EmailVerification(models.Model):
+class EmailVerifications(models.Model):
+    """Model for one EmailVerifications"""
+
     code = models.UUIDField(unique=True)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     expiration = models.DateTimeField()
 

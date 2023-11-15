@@ -3,16 +3,14 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import FormAnimal
+from .models import FormAnimals
 
 
-@receiver(post_save, sender=FormAnimal)
+@receiver(post_save, sender=FormAnimals)
 def formanimal_post_save(created, **kwargs):
     instance = kwargs["instance"]
     if created:
-        subjects = (
-            f"CityHeroes | Успешная заявка на аккаунте {instance.user.email}"
-        )
+        subjects = f"CityHeroes | Успешная заявка на аккаунте {instance.user.email}"
         message = "Поздравляем, вы подали заявку на нашем сайте на получение {instance.animal.name}\n CityHeroes"
         send_mail(
             subject=subjects,

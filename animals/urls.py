@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import AnimalsListAPIView, AnimalSearchView, AnimalRetrieveAPIView
+
+from .views import AnimalRetrieveAPIView, AnimalSearchView, AnimalsListAPIView
 
 app_name = "animals"
 

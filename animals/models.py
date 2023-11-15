@@ -1,14 +1,17 @@
 from django.db import models
 
+from companies.models import Companies, Images
 
-class Animal(models.Model):
+
+class Animals(models.Model):
     """Model for one animal"""
 
     name = models.CharField("Имя", max_length=120)
     species = models.CharField("Порода", max_length=200)
     age = models.PositiveIntegerField(default=0)
     content = models.TextField()
-    image = models.ImageField(upload_to="animals_images")
+    images = models.ManyToManyField(to=Images)
+    company = models.ForeignKey(to=Companies, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "животное"

@@ -1,4 +1,4 @@
 def animal_search(query):
-    from animals.models import Animal
+    from animals.models import Animals
 
-    Animal.objects.filter(name__icontains=query)
+    Animals.objects.filter(name__icontains=query)

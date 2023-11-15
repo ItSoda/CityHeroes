@@ -3,10 +3,11 @@ from urllib.request import urlopen
 
 from django.core.files import File
 from rest_framework import serializers
-from .models import Animal
+
+from .models import Animals
 
 
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Animal
+        model = Animals
         fields = "__all__"

@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     "animals",
     "users",
     "forms",
-    "tg_bot",
+    # "tg_bot",
+    "companies",
 ]
 
 MIDDLEWARE = [
@@ -184,7 +185,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # User
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.Users"
 
 # Redis
 CACHES = {
@@ -267,3 +268,6 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 # TELEGRAM BOT
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
 ADMIN_ID = env("ADMIN_ID")
+
+# ngrok
+CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]

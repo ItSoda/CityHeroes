@@ -1,8 +1,10 @@
 from django.contrib import admin
-from .models import Animal
+
+from .models import Animals
 
 
-@admin.register(Animal)
-class AnimalAdmin(admin.ModelAdmin):
+@admin.register(Animals)
+class AnimalsAdmin(admin.ModelAdmin):
     list_display = ("name", "age", "species")
     ordering = ("species",)
+    filter_horizontal = ["images"]
