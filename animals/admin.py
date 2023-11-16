@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import Animals
+from .models import Animals, Images
+
+
+@admin.register(Images)
+class ImagesAdmin(admin.ModelAdmin):
+    list_display = ("name", "image")
+    ordering = ("name",)
 
 
 @admin.register(Animals)

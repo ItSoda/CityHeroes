@@ -16,7 +16,7 @@ class Users(AbstractUser):
     is_verified_email = models.BooleanField(default=False)
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
-    image = models.ImageField(null=True, blank=True)
+    is_company = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     "users",
     "forms",
     # "tg_bot",
-    "companies",
 ]
 
 MIDDLEWARE = [
@@ -115,7 +114,7 @@ if DEBUG:
             "NAME": "CityHeroes",
             "USER": "root",
             "PASSWORD": "nik140406",
-            "HOST": "localhost",
+            "HOST": "localhost", # db/localhost
             "PORT": 3306,
         }
     }

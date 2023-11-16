@@ -1,6 +1,19 @@
 from django.db import models
+from users.models import Users
 
-from companies.models import Companies, Images
+
+class Images(models.Model):
+    """Model for one images"""
+
+    name = models.CharField("Название", max_length=100)
+    image = models.ImageField(upload_to="all_images")
+
+    class Meta:
+        verbose_name = "Фотографию"
+        verbose_name_plural = "Фотографии"
+
+    def __str__(self):
+        return f"Name: {self.name}"
 
 
 class Animals(models.Model):
@@ -11,7 +24,7 @@ class Animals(models.Model):
     age = models.PositiveIntegerField(default=0)
     content = models.TextField()
     images = models.ManyToManyField(to=Images)
-    company = models.ForeignKey(to=Companies, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "животное"
@@ -19,3 +32,4 @@ class Animals(models.Model):
 
     def __str__(self) -> str:
         return f"Name: {self.name} | species: {self.species}"
+
