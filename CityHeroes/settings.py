@@ -114,7 +114,7 @@ if DEBUG:
             "NAME": "CityHeroes",
             "USER": "root",
             "PASSWORD": "nik140406",
-            "HOST": "localhost", # db/localhost
+            "HOST": "db", # db/localhost
             "PORT": 3306,
         }
     }

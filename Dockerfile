@@ -1,6 +1,6 @@
-FROM python:3
+FROM python:3.10
 
-EXPOSE 8001
+EXPOSE 8000
 
 WORKDIR /cityheroes
 
@@ -13,8 +13,4 @@ RUN poetry install --no-interaction --no-ansi
 
 COPY . /cityheroes/
 
-# RUN poetry run python manage.py makemigrations
-
-# RUN poetry run python manage.py migrate
-
-CMD ["poetry", "run", "python", "manage.py", "runserver"]
+CMD ["poetry", "run", "python", "manage.py", "runserver", "127.0.0.1:8000"]

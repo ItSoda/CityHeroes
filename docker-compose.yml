@@ -1,31 +1,26 @@
-version: '3.7'
+version: '3'
 
 services:
-  python:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8001"  # Поменяйте порт, если это необходимо
-    depends_on:
-      - db
-    volumes:
-      - .:/cityheroes  # Замените это на путь к вашему Django проекту внутри контейнера
-
   db:
     image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: nik140406
       MYSQL_DATABASE: CityHeroes  # Замените на ваше название базы данных
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    restart: always
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: 
+      - bash
+      - -c
+      - |
+        poetry run python manage.py migrate
+        poetry run python manage.py runserver 0.0.0.0:8000
     ports:
-      - 8080:80
-    environment:
-      - PMA_ARBITRARY=1
+      - "8000:8000"  # Поменяйте порт, если это необходимо
     depends_on:
       - db
+    volumes:
+      - .:/cityheroes  # Замените это на путь к вашему Django проекту внутри контейнера
