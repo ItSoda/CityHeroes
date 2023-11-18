@@ -7,6 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: nik140406
       MYSQL_DATABASE: CityHeroes  # Замените на ваше название базы данных
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   redis: 
     image: redis:latest
