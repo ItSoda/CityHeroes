@@ -8,10 +8,15 @@ services:
       MYSQL_ROOT_PASSWORD: nik140406
       MYSQL_DATABASE: CityHeroes  # Замените на ваше название базы данных
 
-  web:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  redis: 
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  api:
+    image: itsoda14/cityheroes-api:api
     command: 
       - bash
       - -c
@@ -22,5 +27,6 @@ services:
       - "8000:8000"  # Поменяйте порт, если это необходимо
     depends_on:
       - db
+      - redis 
     volumes:
       - .:/cityheroes  # Замените это на путь к вашему Django проекту внутри контейнера

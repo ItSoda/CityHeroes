@@ -1,6 +1,9 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from .models import Animals
 from .serializers import AnimalSerializer
 from .services import animal_search
@@ -11,6 +14,9 @@ class AnimalsListAPIView(ListAPIView):
     serializer_class = AnimalSerializer
     permission_classes = (AllowAny,)
 
+    @method_decorator(cache_page(70))
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 class AnimalSearchView(ListAPIView):
     serializer_class = AnimalSerializer
