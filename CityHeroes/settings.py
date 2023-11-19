@@ -114,7 +114,7 @@ if DEBUG:
             "NAME": "cityheroes",
             "USER": "root",
             "PASSWORD": "nik140406",
-            "HOST": "mysql", # mysql/localhost
+            "HOST": "localhost", # mysql/localhost
             "PORT": 3306,
         }
     }

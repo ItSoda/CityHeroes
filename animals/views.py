@@ -1,5 +1,8 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ModelViewSet
+
+from .permissions import IsCompanyUser
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -9,14 +12,26 @@ from .serializers import AnimalSerializer
 from .services import animal_search
 
 
-class AnimalsListAPIView(ListAPIView):
+class AnimalModelViewSet(ModelViewSet):
     queryset = Animals.objects.all()
     serializer_class = AnimalSerializer
-    permission_classes = (AllowAny,)
+
+    def get_permissions(self):
+        if self.action == "create" or self.action == "destroy":
+            permission_classes = [IsCompanyUser]
+        elif self.action == "list":
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+
 
     @method_decorator(cache_page(70))
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+    
+    
+
 
 class AnimalSearchView(ListAPIView):
     serializer_class = AnimalSerializer
@@ -28,9 +43,3 @@ class AnimalSearchView(ListAPIView):
         # Используйте фильтр для поиска товаров по имени (или другим полям) по запросу
         queryset = animal_search(query)
         return queryset
-
-
-class AnimalRetrieveAPIView(RetrieveAPIView):
-    queryset = Animals.objects.all()
-    serializer_class = AnimalSerializer
-    permission_classes = (AllowAny,)

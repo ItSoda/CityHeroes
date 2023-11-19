@@ -6,6 +6,8 @@ from rest_framework_simplejwt.views import (TokenBlacklistView,
                                             TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
 
+from users.views import CustomUserCreateView
+
 from .yasg import urlpatterns as doc_url
 
 urlpatterns = [
@@ -14,6 +16,7 @@ urlpatterns = [
     path("api/", include("forms.urls")),
     path("api/", include("users.urls")),
     
+    path("auth/users/", CustomUserCreateView.as_view({'post': 'create'}), name="user-create"),
     path("auth/", include("djoser.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),

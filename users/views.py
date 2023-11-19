@@ -1,11 +1,20 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from djoser.views import UserViewSet
 from users.services import (EmailVerificationHandler, check_last_first_name,
                             user_update_first_last_name)
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserCompanyCreateSerializer
+
+
+class CustomUserCreateView(UserViewSet):
+    def perform_create(self, serializer, *args, **kwargs):
+        serializer = UserCompanyCreateSerializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmailVerificationAndUserUpdateView(APIView):

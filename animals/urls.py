@@ -1,12 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from .views import AnimalRetrieveAPIView, AnimalSearchView, AnimalsListAPIView
+from .views import AnimalSearchView, AnimalModelViewSet
 
 app_name = "animals"
 
+router = routers.DefaultRouter()
+router.register(r"animals", AnimalModelViewSet, basename="animals")
 
 urlpatterns = [
-    path("animals/", AnimalsListAPIView.as_view(), name="animals"),
-    path("animal/<int:pk>/", AnimalRetrieveAPIView.as_view(), name="animal-retrieve"),
+    path("", include(router.urls)),
     path("animals/search/", AnimalSearchView.as_view(), name="search"),
 ]

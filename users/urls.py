@@ -14,4 +14,5 @@ urlpatterns = [
     path(
         "user/update/", EmailVerificationAndUserUpdateView.as_view(), name="user-update"
     ),
+
 ]
