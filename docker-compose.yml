@@ -1,14 +1,16 @@
-version: '3'
+version: '3.8'
 
 services:
-  db:
+  mysql:
     image: mysql:latest
+    container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: nik140406
-      MYSQL_DATABASE: CityHeroes  # Замените на ваше название базы данных
+      - MYSQL_DATABASE=cityheroes
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=nik140406
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql/
 
   redis: 
     image: redis:latest
@@ -18,17 +20,22 @@ services:
       - "6379:6379"
 
   api:
-    image: itsoda14/cityheroes-api:api
-    command: 
-      - bash
+    image: itsoda14/cityheroes-api:latest
+    command:
+      - sh
       - -c
       - |
-        poetry run python manage.py migrate
+        dockerize -wait tcp://mysql:3306 -timeout 60s &&
+        poetry run python manage.py migrate &&
         poetry run python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8000:8000"  # Поменяйте порт, если это необходимо
+      - "8000:8000" 
     depends_on:
-      - db
+      - mysql
       - redis 
     volumes:
-      - .:/cityheroes  # Замените это на путь к вашему Django проекту внутри контейнера
+      - .:/cityheroes
+    container_name: django-api
+
+volumes:
+  mysql_data: null

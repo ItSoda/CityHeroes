@@ -111,10 +111,10 @@ if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "CityHeroes",
+            "NAME": "cityheroes",
             "USER": "root",
             "PASSWORD": "nik140406",
-            "HOST": "db", # db/localhost
+            "HOST": "mysql", # mysql/localhost
             "PORT": 3306,
         }
     }
