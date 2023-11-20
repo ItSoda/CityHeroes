@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -107,14 +108,27 @@ WSGI_APPLICATION = "CityHeroes.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
+
+if os.environ.get("DJANGO_RUNNING_IN_DOCKER"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
             "NAME": "cityheroes",
             "USER": "root",
             "PASSWORD": "nik140406",
-            "HOST": "localhost", # mysql/localhost
+            "HOST": "mysql",  # mysql/localhost
+            "PORT": 3306,
+        }
+    }
+
+elif DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "cityheroes",
+            "USER": "root",
+            "PASSWORD": "nik140406",
+            "HOST": "localhost",  # mysql/localhost
             "PORT": 3306,
         }
     }

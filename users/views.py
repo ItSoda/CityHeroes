@@ -1,11 +1,24 @@
+from djoser.views import UserViewSet
 from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from djoser.views import UserViewSet
-from users.services import (EmailVerificationHandler, check_last_first_name,
-                            user_update_first_last_name)
+from rest_framework.viewsets import ModelViewSet
 
-from .serializers import UserSerializer, UserCompanyCreateSerializer
+from users.services import (
+    EmailVerificationHandler,
+    check_last_first_name,
+    user_update_first_last_name,
+)
+
+from .models import Users
+from .serializers import UserCompanyCreateSerializer, UserSerializer
+
+
+class UserModelViewSet(ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAdminUser,)
 
 
 class CustomUserCreateView(UserViewSet):

@@ -4,38 +4,52 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Images',
+            name="Images",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('image', models.ImageField(upload_to='all_images')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Название")),
+                ("image", models.ImageField(upload_to="all_images")),
             ],
             options={
-                'verbose_name': 'Фотографию',
-                'verbose_name_plural': 'Фотографии',
+                "verbose_name": "Фотографию",
+                "verbose_name_plural": "Фотографии",
             },
         ),
         migrations.CreateModel(
-            name='Animals',
+            name="Animals",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Имя')),
-                ('species', models.CharField(max_length=200, verbose_name='Порода')),
-                ('age', models.PositiveIntegerField(default=0)),
-                ('content', models.TextField()),
-                ('images', models.ManyToManyField(to='animals.images')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=120, verbose_name="Имя")),
+                ("species", models.CharField(max_length=200, verbose_name="Порода")),
+                ("age", models.PositiveIntegerField(default=0)),
+                ("content", models.TextField()),
+                ("images", models.ManyToManyField(to="animals.images")),
             ],
             options={
-                'verbose_name': 'животное',
-                'verbose_name_plural': 'Животные',
+                "verbose_name": "животное",
+                "verbose_name_plural": "Животные",
             },
         ),
     ]

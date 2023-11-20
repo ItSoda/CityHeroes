@@ -1,4 +1,5 @@
 from django.db import models
+
 from users.models import Users
 
 
@@ -32,4 +33,3 @@ class Animals(models.Model):
 
     def __str__(self) -> str:
         return f"Name: {self.name} | species: {self.species}"
-

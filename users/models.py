@@ -9,7 +9,7 @@ from .managers import CustomUserManager
 
 # User Model
 class Users(AbstractUser):
-    """Model for one Users"""
+    """Model for Users"""
 
     username = None
     email = models.EmailField(unique=True)
@@ -17,7 +17,9 @@ class Users(AbstractUser):
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
     is_company = models.BooleanField(default=False)
-    name_company = models.CharField(max_length=150, null=True)
+    name_company = models.CharField(
+        max_length=150, null=True, default="ChangeCompanyName"
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
