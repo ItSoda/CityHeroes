@@ -55,6 +55,8 @@ class UsersAPITestCase(APITestCase):
         self.assertEqual(EmailVerifications.objects.count(), expected_data)
 
     def test_login_account(self):
+        """This test covers user account login"""
+
         url = reverse("token_obtain_pair")
         data = {"email": self.superuser.email, "password": "nikitatop23"}
         response = self.client.post(url, data)
@@ -62,6 +64,8 @@ class UsersAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_logout_account(self):
+        """This test covers user account logout"""
+
         url = reverse("token_blacklist")
         self.refresh_token = str(RefreshToken.for_user(self.superuser))
         self.access_token = str(RefreshToken.for_user(self.superuser).access_token)
@@ -75,6 +79,8 @@ class UsersAPITestCase(APITestCase):
         self.assertEqual(invalid_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_user_list(self):
+        """This test covers users list"""
+
         url = reverse("users:users-list")
         response = self.client.get(url)
         expected_data_length = 2

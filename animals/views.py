@@ -15,9 +15,9 @@ class AnimalModelViewSet(ModelViewSet):
     serializer_class = AnimalSerializer
 
     def get_permissions(self):
-        if self.action == "create" or self.action == "destroy":
-            permission_classes = [IsCompanyUser, IsAdminUser]
-        elif self.action == "list":
+        if self.action in ["create", "destroy", "update", "partial_update"]:
+            permission_classes = [IsCompanyUser]
+        elif self.action in ["list", "retrieve"]:
             permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]

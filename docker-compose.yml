@@ -20,7 +20,7 @@ services:
       - "6379:6379"
 
   api:
-    image: itsoda14/cityheroes-api:latest
+    image: itsoda14/cityheroes-api:1.2
     environment:
       - DJANGO_RUNNING_IN_DOCKER=True
     command:

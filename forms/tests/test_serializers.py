@@ -1,41 +1,47 @@
-# from rest_framework.test import APITestCase
-# from animals.models import Animals, Images
-# from forms.serializers import FormAnimalSerializer
-# from forms.models import FormAnimals
-# from users.models import Users
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
-# class FormAnimalSerializerAPITestCase(APITestCase):
-#     def setUp(self):
-#         self.image = Images.objects.create(
-#             name="niggs",
-#             image="https://img.freepik.com/free-photo/young-adult-enjoying-yoga-in-nature_23-2149573175.jpg"
-#         )
-#         self.animal = Animals.objects.create(
-#             id=1,
-#             name="ChaCha",
-#             species="Дворняжка",
-#             age=7,
-#             content="крутая дворняжка",
-#             user=1,
-#             images=[self.image.id]
-#         )
-#         self.user = Users.objects.create_user(
-#             email="nikitatopchik@gmail.com", password="pogosweb"
-#         )
-#         self.form = FormAnimals.objects.create(
-#             phone="+79136757877",
-#             animal=self.animal.id,
-#             user=self.user.id
-#             )
+from animals.models import Animals, Images
+from forms.models import FormAnimals
+from forms.serializers import FormAnimalSerializer
+from users.models import Users
 
-#     def test_form_animal_serializer(self):
-#         """This test covers UserSerializer"""
 
-#         data = FormAnimalSerializer(self.form).data
-#         expected_data = {
-#             "id": self.form.id,
-#             "phone": self.form.phone,
-#             "animal": self.form.animal,
-#             "user": self.form.user
-#             }
-#         self.assertEqual(expected_data, data)
+class FormAnimalSerializerAPITestCase(APITestCase):
+    def setUp(self):
+        """data for test db"""
+
+        self.image = Images.objects.create(
+            name="niggs",
+            image="https://img.freepik.com/free-photo/young-adult-enjoying-yoga-in-nature_23-2149573175.jpg",
+        )
+        self.user = Users.objects.create_user(
+            email="nikitamisha@gmail.com", password="pogosweb", is_company=True
+        )
+        self.access_token = str(RefreshToken.for_user(self.user).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
+
+        data = {
+            "name": "Chi",
+            "species": "Cha",
+            "age": 7,
+            "content": "Chi for Cha",
+            "user": self.user,
+        }
+        self.animal = Animals.objects.create(**data)
+        self.animal.images.add(self.image)
+        data = {"phone": "+79136757877", "user": self.user.id, "animal": self.animal.id}
+        url = reverse("forms:form-create")
+        self.form = self.client.post(url, data).data
+        print(self.form)
+
+    def test_form_animal_serializer(self):
+        """This test covers FormAnimalSerializer"""
+
+        data = FormAnimalSerializer(self.form).data
+        expected_data = {
+            "id": self.form.get("id"),
+            "phone": self.form.get("phone"),
+        }
+        self.assertEqual(expected_data, data)

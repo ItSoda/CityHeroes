@@ -5,11 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from users.services import (
-    EmailVerificationHandler,
-    check_last_first_name,
-    user_update_first_last_name,
-)
+from users.services import (EmailVerificationHandler, check_last_first_name,
+                            user_update_first_last_name)
 
 from .models import Users
 from .serializers import UserCompanyCreateSerializer, UserSerializer
