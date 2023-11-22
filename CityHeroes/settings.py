@@ -34,6 +34,8 @@ env = environ.Env(
     DEFAULT_FROM_EMAIL=(str),
     TELEGRAM_BOT_TOKEN=(str),
     ADMIN_ID=(int),
+    YOOKASSA_SHOP_ID=(str),
+    YOOKASSA_SECRET_KEY=(str),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -68,6 +70,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
+
     "animals",
     "users",
     "forms",
@@ -284,3 +287,8 @@ ADMIN_ID = env("ADMIN_ID")
 
 # ngrok
 CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]
+
+# yookassa
+YOOKASSA_REDIRECT_URL = "/admin/"
+YOOKASSA_SHOP_ID = env("YOOKASSA_SHOP_ID")
+YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")

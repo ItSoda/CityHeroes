@@ -1,13 +1,15 @@
+import json
+from django.http import HttpResponse
 from djoser.views import UserViewSet
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from users.services import (EmailVerificationHandler, check_last_first_name,
+from users.services import (EmailVerificationHandler, check_last_first_name, create_payment, user_save_yookassa_payment_id,
                             user_update_first_last_name)
-
+from yookassa.domain.notification import WebhookNotificationFactory
 from .models import Users
 from .serializers import UserCompanyCreateSerializer, UserSerializer
 
@@ -59,3 +61,29 @@ class EmailVerificationAndUserUpdateView(APIView):
         return Response(
             {"message": "Имя и Фамилия добавлены"}, status=status.HTTP_200_OK
         )
+    
+
+class SubscriptionCreateView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        payment_url = create_payment(self, request)
+        # Перенаправка пользователя на страницу оплаты Юкассы
+        return Response({"payment_url": payment_url,})
+
+
+class YookassaWebhookView(APIView):
+    def post(self, request):
+        event_json = json.loads(request.body.decode("utf-8"))
+
+        try:
+            notification = WebhookNotificationFactory().create(event_json)
+            # Проверяем статус платежа
+            if notification.object.status == "succeeded":
+                # Проверяем сохранен ли метод оплаты
+                if notification.object.payment_method.saved == True:
+                    user_save_yookassa_payment_id(self, notification)
+        except Exception as e:
+            # Обработка ошибок при разборе уведомления
+            return HttpResponse(status=400)
+        return HttpResponse(status=200)

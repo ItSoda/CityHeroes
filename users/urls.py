@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-
+from .views import SubscriptionCreateView, YookassaWebhookView
 from .views import EmailVerificationAndUserUpdateView, UserModelViewSet
 
 app_name = "users"
@@ -18,4 +18,6 @@ urlpatterns = [
     path(
         "user/update/", EmailVerificationAndUserUpdateView.as_view(), name="user-update"
     ),
+    path("payment/create/", SubscriptionCreateView.as_view(), name="payment-create"),
+    path("yookassa/webhook/", YookassaWebhookView.as_view(), name="yookassa-webhook"),
 ]

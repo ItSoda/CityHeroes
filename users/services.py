@@ -71,3 +71,35 @@ def user_update_first_last_name(user_id, request):
     user.first_name = request.data["first_name"]
     user.last_name = request.data["last_name"]
     user.save()
+
+
+# YOOKASSA PAYMENT
+def create_payment(self, request):
+    from django.conf import settings
+    from yookassa import Configuration, Payment
+
+    # Настройте ключи доступа
+    Configuration.account_id = settings.YOOKASSA_SHOP_ID
+    Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
+    # Создайте объект платежа
+    payment = Payment.create({
+        "amount": {
+            "value": "2000.00",
+            "currency": "RUB"
+        },
+        "payment_method_data": {
+            "type": "bank_card"
+        },
+        "confirmation": {
+            "type": "redirect",
+            "return_url": settings.YOOKASSA_REDIRECT_URL
+        },
+        "capture": True,
+        "description": "Заказ №72",
+        "save_payment_method": True
+    })
+    return payment.confirmation.confirmation_url
+
+
+def user_save_yookassa_payment_id(self, notification):
+    self.request.user.yookassa_payment_id = notification.object.payment_method.id
