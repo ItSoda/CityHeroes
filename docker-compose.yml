@@ -20,16 +20,10 @@ services:
       - "6379:6379"
 
   api:
-    image: itsoda14/cityheroes-api:1.2
+    build: .
+#    image: itsoda14/cityheroes-api:1.2
     environment:
       - DJANGO_RUNNING_IN_DOCKER=True
-    command:
-      - sh
-      - -c
-      - |
-        dockerize -wait tcp://mysql:3306 -timeout 60s &&
-        poetry run python manage.py migrate &&
-        poetry run python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000" 
     depends_on:
