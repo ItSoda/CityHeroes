@@ -1,21 +1,18 @@
-FROM python:3.10-slim-bullseye as builder
-
-WORKDIR /usr
-
-COPY ./pyproject.toml ./poetry.lock ./
-
-RUN pip install poetry && poetry config virtualenvs.create true && poetry install --only main
-
-FROM python:3.10-slim-bullseye as compiler
+FROM python:3.10
 
 EXPOSE 8000
 
-WORKDIR /usr/cityheroes
+WORKDIR /cityheroes
 
-COPY --from=builder /usr /usr
-COPY . .
+COPY pyproject.toml poetry.lock /cityheroes/
 
-ENV PATH="/usr/cityheroes/.venv/bin:$PATH"
-ENV PYTHONPATH="/usr/cityheroes:$PYTHONPATH"
+RUN apt-get update && apt-get install -y wget \
+    && wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
+    && rm dockerize-linux-amd64-v0.6.1.tar.gz
 
-CMD ["sh", "-c", "gunicorn CityHeroes.wsgi:application -b :8000"]
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-root --no-interaction --no-ansi --only main
+
+COPY . /cityheroes/
