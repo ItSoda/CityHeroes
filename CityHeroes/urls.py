@@ -13,7 +13,6 @@ from .yasg import urlpatterns as doc_url
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("animals.urls")),
-    path("api/", include("forms.urls")),
     path("api/", include("users.urls")),
     path(
         "auth/users/",

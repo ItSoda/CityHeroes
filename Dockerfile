@@ -13,6 +13,6 @@ RUN apt-get update && apt-get install -y wget \
 
 RUN pip install poetry
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-root --no-interaction --no-ansi --only main
+RUN poetry install --no-root --no-interaction --no-ansi
 
 COPY . /cityheroes/

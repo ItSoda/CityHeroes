@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import AnimalModelViewSet, AnimalSearchView
+from .views import AnimalModelViewSet, AnimalSearchView, FormAnimalsCreateAPIView
 
 app_name = "animals"
 
@@ -11,4 +11,5 @@ router.register(r"animals", AnimalModelViewSet, basename="animals")
 urlpatterns = [
     path("", include(router.urls)),
     path("animals/search/", AnimalSearchView.as_view(), name="search"),
+    path("formanimal/create/", FormAnimalsCreateAPIView.as_view(), name="form-create"),
 ]

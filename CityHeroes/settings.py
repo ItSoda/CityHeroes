@@ -73,7 +73,6 @@ INSTALLED_APPS = [
 
     "animals",
     "users",
-    "forms",
     # "tg_bot",
 ]
 

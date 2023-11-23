@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import Animals, Images
-
+from .models import Animals, Images, FormAnimals
 
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):
@@ -14,3 +13,10 @@ class AnimalsAdmin(admin.ModelAdmin):
     list_display = ("name", "age", "species")
     ordering = ("species",)
     filter_horizontal = ["images"]
+
+
+class FormAnimalAdmin(admin.TabularInline):
+    model = FormAnimals
+    fields = ("animal", "phone")
+    extra = 0
+

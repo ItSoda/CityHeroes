@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from forms.admin import FormAnimalAdmin
+from animals.admin import FormAnimalAdmin
 
 from .models import EmailVerifications, Users
 
