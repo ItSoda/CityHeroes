@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from users.services import (EmailVerificationHandler, check_last_first_name, create_payment, user_save_yookassa_payment_id,
-                            user_update_first_last_name)
+                            user_update_first_last_name, create_auto_payment)
 from yookassa.domain.notification import WebhookNotificationFactory
 from .models import Users
 from .serializers import UserCompanyCreateSerializer, UserSerializer
@@ -67,7 +67,8 @@ class SubscriptionCreateView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        payment_url = create_payment(self, request)
+        user = self.request.user
+        payment_url = create_payment(self.request.user, request)
         # Перенаправка пользователя на страницу оплаты Юкассы
         return Response({"payment_url": payment_url,})
 
@@ -75,15 +76,17 @@ class SubscriptionCreateView(APIView):
 class YookassaWebhookView(APIView):
     def post(self, request):
         event_json = json.loads(request.body.decode("utf-8"))
-
+        user_id = event_json["object"]["metadata"].get("user_id")
         try:
             notification = WebhookNotificationFactory().create(event_json)
             # Проверяем статус платежа
             if notification.object.status == "succeeded":
                 # Проверяем сохранен ли метод оплаты
                 if notification.object.payment_method.saved == True:
-                    user_save_yookassa_payment_id(self, notification)
+                    # Добавляем yookassa_payment_id пользователю
+                    user = user_save_yookassa_payment_id(user_id, notification)
+                    create_auto_payment(user)
         except Exception as e:
             # Обработка ошибок при разборе уведомления
-            return HttpResponse(status=400)
-        return HttpResponse(status=200)
+            return Response({"message": "Payment ID не создан. Произошла ошибка"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Payment ID сохранен успешно"}, status=status.HTTP_200_OK)

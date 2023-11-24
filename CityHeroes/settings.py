@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
+    "corsheaders",
 
     "animals",
     "users",
@@ -84,6 +85,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = "CityHeroes.urls"
@@ -239,7 +241,7 @@ DJOSER = {
 
 # JWT
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1440),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -291,3 +293,31 @@ CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]
 YOOKASSA_REDIRECT_URL = "/admin/"
 YOOKASSA_SHOP_ID = env("YOOKASSA_SHOP_ID")
 YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")
+
+# CORS
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",  # Замените YOUR_FLUTTER_PORT на реальный порт вашего Flutter-приложения
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_URLS_REGEX = r'^/.*$'
