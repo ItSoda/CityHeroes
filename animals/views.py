@@ -6,7 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Animals
 from .permissions import IsCompanyUser
-from .serializers import AnimalSerializer, FormAnimalSerializer
+from .serializers import AnimalSerializer, FormAnimalSerializer, AnimalCreateSerializer
 from .services import animal_search
 
 
@@ -23,9 +23,12 @@ class AnimalModelViewSet(ModelViewSet):
         return [permission() for permission in permission_classes]
 
     @method_decorator(cache_page(70))
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
+    def create(self, request, *args, **kwargs):
+        self.get_serializer = AnimalCreateSerializer
+        return super().create(request, *args, **kwargs)
 
 class AnimalSearchView(ListAPIView):
     serializer_class = AnimalSerializer

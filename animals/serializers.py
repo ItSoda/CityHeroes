@@ -5,7 +5,7 @@ from django.core.files import File
 from rest_framework import serializers
 
 from users.models import Users
-
+from users.serializers import UserSerializer
 from .models import Animals, FormAnimals, Images
 
 
@@ -33,7 +33,7 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AnimalSerializer(serializers.ModelSerializer):
+class AnimalCreateSerializer(serializers.ModelSerializer):
     user = serializers.IntegerField(write_only=True)
     images = serializers.ListField(child=serializers.IntegerField(), write_only=True)
 
@@ -49,6 +49,15 @@ class AnimalSerializer(serializers.ModelSerializer):
         instance = Animals.objects.create(user=user_instance, **validated_data)
         instance.images.set(images_ids)
         return instance
+
+
+class AnimalSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    images = ImageSerializer(many=True)
+
+    class Meta:
+        model = Animals
+        fields = "__all__"
 
 
 class FormAnimalSerializer(serializers.ModelSerializer):
