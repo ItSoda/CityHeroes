@@ -77,3 +77,12 @@ class FormAnimalSerializer(serializers.ModelSerializer):
         )
 
         return instance
+
+
+class FormAnimalSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    animal = ImageSerializer()
+
+    class Meta:
+        model = Animals
+        fields = "__all__"
