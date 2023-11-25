@@ -80,12 +80,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = "CityHeroes.urls"
@@ -286,7 +286,7 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
 ADMIN_ID = env("ADMIN_ID")
 
-# ngrok
+# CSRF
 CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]
 
 # yookassa
@@ -296,7 +296,7 @@ YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",  # Замените YOUR_FLUTTER_PORT на реальный порт вашего Flutter-приложения
+    "http://127.0.0.1:3000", 
 ]
 
 CORS_ALLOW_METHODS = [
@@ -320,4 +320,4 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-CORS_URLS_REGEX = r'^/.*$'
+CORS_URLS_REGEX = r"^/.*$"
