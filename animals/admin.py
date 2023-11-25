@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Animals, Images, FormAnimals
+from .models import Animals, FormAnimals, Images
+
 
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):
@@ -19,4 +20,3 @@ class FormAnimalAdmin(admin.TabularInline):
     model = FormAnimals
     fields = ("animal", "phone")
     extra = 0
-

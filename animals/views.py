@@ -1,6 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
@@ -37,8 +37,8 @@ class AnimalSearchView(ListAPIView):
         # Используйте фильтр для поиска товаров по имени (или другим полям) по запросу
         queryset = animal_search(query)
         return queryset
-    
+
+
 class FormAnimalsCreateAPIView(CreateAPIView):
     serializer_class = FormAnimalSerializer
     permission_classes = (IsAuthenticated,)
-

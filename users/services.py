@@ -3,8 +3,6 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.timezone import now
-from rest_framework import status
-from rest_framework.response import Response
 
 
 # MODELS METHODS
@@ -84,55 +82,49 @@ def create_payment(user, request):
     Configuration.account_id = settings.YOOKASSA_SHOP_ID
     Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
     # Создайте объект платежа
-    payment = Payment.create({
-        "amount": {
-            "value": "2000.00",
-            "currency": "RUB"
-        },
-        "payment_method_data": {
-            "type": "bank_card"
-        },
-        "confirmation": {
-            "type": "redirect",
-            "return_url": settings.YOOKASSA_REDIRECT_URL
-        },
-        "capture": True,
-        "description": f"Платеж для пользователя {user.email}",
-        "save_payment_method": True,
-        "metadata": {
-            "user_id": str(request.user.id)
+    payment = Payment.create(
+        {
+            "amount": {"value": "2000.00", "currency": "RUB"},
+            "payment_method_data": {"type": "bank_card"},
+            "confirmation": {
+                "type": "redirect",
+                "return_url": settings.YOOKASSA_REDIRECT_URL,
+            },
+            "capture": True,
+            "description": f"Платеж для пользователя {user.email}",
+            "save_payment_method": True,
+            "metadata": {"user_id": str(request.user.id)},
         }
-    })
+    )
     return payment.confirmation.confirmation_url
 
 
-def user_save_yookassa_payment_id(user_id,  notification):
+def user_save_yookassa_payment_id(user_id, notification):
     from users.models import Users
+
     user = Users.objects.get(id=user_id)
 
     user.yookassa_payment_id = notification.object.payment_method.id
     user.save()
     return user
 
+
 def create_auto_payment(user):
-    from yookassa import Configuration, payment
     from datetime import datetime, timedelta
+
+    from yookassa import Configuration, Payment
 
     Configuration.account_id = settings.YOOKASSA_SHOP_ID
     Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
 
     start_date = (datetime.utcnow() + timedelta(days=30)).isoformat()
-
-    subscription = payment.create({
-        "amount": {
-            "value": "100.00",
-            "currency": "RUB"
-        },
-        "payment_method_id": f"{user.yookassa_payment_id}",
-        "description": f"Подписка на услугу для пользователя {user.email}",
-        "interval": "month",
-        "start_date": start_date,
-        "metadata": {
-            "user_id": str(user.id)
+    auto_payment = Payment.create(
+        {
+            "amount": {"value": "100.00", "currency": "RUB"},
+            "payment_method_id": f"{user.yookassa_payment_id}",
+            "description": f"Подписка на услугу для пользователя {user.email}",
+            "interval": "month",
+            "start_date": start_date,
+            "metadata": {"user_id": str(user.id)},
         }
-    })
+    )

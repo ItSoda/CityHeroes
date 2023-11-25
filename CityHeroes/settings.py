@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
-
     "animals",
     "users",
     # "tg_bot",
@@ -296,28 +295,28 @@ YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000", 
+    "http://127.0.0.1:3000",
 ]
 
 CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 CORS_URLS_REGEX = r"^/.*$"

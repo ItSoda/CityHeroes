@@ -1,4 +1,5 @@
 import json
+
 from django.http import HttpResponse
 from djoser.views import UserViewSet
 from rest_framework import status
@@ -6,10 +7,17 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
-from users.services import (EmailVerificationHandler, check_last_first_name, create_payment, user_save_yookassa_payment_id,
-                            user_update_first_last_name, create_auto_payment)
 from yookassa.domain.notification import WebhookNotificationFactory
+
+from users.services import (
+    EmailVerificationHandler,
+    check_last_first_name,
+    create_auto_payment,
+    create_payment,
+    user_save_yookassa_payment_id,
+    user_update_first_last_name,
+)
+
 from .models import Users
 from .serializers import UserCompanyCreateSerializer, UserSerializer
 
@@ -61,16 +69,20 @@ class EmailVerificationAndUserUpdateView(APIView):
         return Response(
             {"message": "Имя и Фамилия добавлены"}, status=status.HTTP_200_OK
         )
-    
+
 
 class SubscriptionCreateView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         user = self.request.user
-        payment_url = create_payment(self.request.user, request)
+        payment_url = create_payment(user, request)
         # Перенаправка пользователя на страницу оплаты Юкассы
-        return Response({"payment_url": payment_url,})
+        return Response(
+            {
+                "payment_url": payment_url,
+            }
+        )
 
 
 class YookassaWebhookView(APIView):
@@ -82,11 +94,16 @@ class YookassaWebhookView(APIView):
             # Проверяем статус платежа
             if notification.object.status == "succeeded":
                 # Проверяем сохранен ли метод оплаты
-                if notification.object.payment_method.saved == True:
+                if notification.object.payment_method.saved:
                     # Добавляем yookassa_payment_id пользователю
                     user = user_save_yookassa_payment_id(user_id, notification)
                     create_auto_payment(user)
         except Exception as e:
             # Обработка ошибок при разборе уведомления
-            return Response({"message": "Payment ID не создан. Произошла ошибка"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"message": "Payment ID сохранен успешно"}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Payment ID не создан. Произошла ошибка"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(
+            {"message": "Payment ID сохранен успешно"}, status=status.HTTP_200_OK
+        )

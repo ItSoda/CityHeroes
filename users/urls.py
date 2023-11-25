@@ -1,7 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import SubscriptionCreateView, YookassaWebhookView
-from .views import EmailVerificationAndUserUpdateView, UserModelViewSet
+
+from .views import (
+    EmailVerificationAndUserUpdateView,
+    SubscriptionCreateView,
+    UserModelViewSet,
+    YookassaWebhookView,
+)
 
 app_name = "users"
 

@@ -5,7 +5,7 @@ from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from animals.models import Animals, FormAnimals, Images
-from users.models import Users, EmailVerifications
+from users.models import EmailVerifications, Users
 
 
 class AnimalsAPITestCase(APITestCase):
