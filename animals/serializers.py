@@ -60,7 +60,7 @@ class AnimalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class FormAnimalSerializer(serializers.ModelSerializer):
+class FormAnimalCreateSerializer(serializers.ModelSerializer):
     animal = serializers.IntegerField(write_only=True)
     user = serializers.IntegerField(write_only=True)
 

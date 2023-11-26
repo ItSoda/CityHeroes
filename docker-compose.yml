@@ -21,12 +21,13 @@ services:
 
   api:
     build: .
-#    image: itsoda14/cityheroes-api:1.2
+    image: itsoda14/cityheroes-api:1.2
     command:
       - sh
       - -c
       - |
         dockerize -wait tcp://mysql:3306 -timeout 60s &&
+        poetry run python manage.py collectstatic --noinput &&
         poetry run python manage.py migrate &&
         ngrok authtoken 2YAjzb799W5sMx82p3azikH2sP2_3KNzf4kzjVayk11njbvC8 &&
         ngrok http -hostname=boar-still-alpaca.ngrok-free.app 8000 &
@@ -40,8 +41,24 @@ services:
       - redis 
     volumes:
       - .:/cityheroes
+      - static_volume:/cityheroes/static
+      - media_volume:/cityheroes/media
     container_name: django-api
-
+  nginx:
+    build: 
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: nginx_ch
+    image: nginx_ch
+    volumes:
+      - static_volume:/cityheroes/static
+      - media_volume:/cityheroes/media
+    depends_on:
+      - api
+    ports:
+      - "80:80"
 
 volumes:
   mysql_data: null
+  static_volume:
+  media_volume:

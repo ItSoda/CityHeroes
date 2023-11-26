@@ -6,7 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Animals
 from .permissions import IsCompanyUser
-from .serializers import AnimalSerializer, FormAnimalSerializer, AnimalCreateSerializer
+from .serializers import AnimalSerializer, FormAnimalCreateSerializer, AnimalCreateSerializer
 from .services import animal_search
 
 
@@ -43,5 +43,5 @@ class AnimalSearchView(ListAPIView):
 
 
 class FormAnimalsCreateAPIView(CreateAPIView):
-    serializer_class = FormAnimalSerializer
+    serializer_class = FormAnimalCreateSerializer
     permission_classes = (IsAuthenticated,)
