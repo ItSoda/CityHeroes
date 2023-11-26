@@ -81,8 +81,8 @@ class FormAnimalCreateSerializer(serializers.ModelSerializer):
 
 class FormAnimalSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    animal = ImageSerializer()
+    animal = AnimalSerializer()
 
     class Meta:
-        model = Animals
+        model = FormAnimals
         fields = "__all__"

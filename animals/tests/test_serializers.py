@@ -2,9 +2,10 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from animals.models import Animals, Images
-from animals.serializers import AnimalSerializer, FormAnimalSerializer
+from animals.models import Animals, Images, FormAnimals
+from animals.serializers import AnimalSerializer, FormAnimalSerializer, ImageSerializer
 from users.models import Users
+from users.serializers import UserSerializer
 
 
 class AnimalSerializersAPITestCase(APITestCase):
@@ -20,7 +21,6 @@ class AnimalSerializersAPITestCase(APITestCase):
             name="chi",
             image="https://img.freepik.com/free-photo/young-adult-enjoying-yoga-in-nature_23-2149573175.jpg",
         )
-
         data = {
             "name": "Chi",
             "species": "Cha",
@@ -35,12 +35,16 @@ class AnimalSerializersAPITestCase(APITestCase):
         """This test covers AnimalSerializer"""
 
         data = AnimalSerializer(self.animal).data
+        self.user = UserSerializer(self.user).data
+        self.image = ImageSerializer(self.image).data
         expected_data = {
             "id": self.animal.id,
             "name": "Chi",
             "species": "Cha",
             "age": 7,
             "content": "Chi for Cha",
+            "user": self.user,
+            "images": [self.image]
         }
 
         self.assertEqual(data, expected_data)
@@ -69,17 +73,20 @@ class FormAnimalSerializerAPITestCase(APITestCase):
         }
         self.animal = Animals.objects.create(**data)
         self.animal.images.add(self.image)
-        data = {"phone": "+79136757877", "user": self.user.id, "animal": self.animal.id}
-        url = reverse("forms:form-create")
-        self.form = self.client.post(url, data).data
-        print(self.form)
+
+        data = {"phone": "+79136757877", "user": self.user, "animal": self.animal}
+        self.form = FormAnimals.objects.create(**data)
 
     def test_form_animal_serializer(self):
         """This test covers FormAnimalSerializer"""
 
         data = FormAnimalSerializer(self.form).data
+        self.user = UserSerializer(self.form.user).data
+        self.animal = AnimalSerializer(self.form.animal).data
         expected_data = {
-            "id": self.form.get("id"),
-            "phone": self.form.get("phone"),
+            "id": self.form.id,
+            "phone": self.form.phone,
+            "user": self.user,
+            "animal": self.animal
         }
-        self.assertEqual(expected_data, data)
+        self.assertEqual(data, expected_data)
