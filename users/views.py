@@ -9,32 +9,19 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from yookassa.domain.notification import WebhookNotificationFactory
 
-from users.services import (
-    EmailVerificationHandler,
-    check_last_first_name,
-    create_auto_payment,
-    create_payment,
-    user_save_yookassa_payment_id,
-    user_update_first_last_name,
-)
+from users.services import (EmailVerificationHandler, check_last_first_name,
+                            create_auto_payment, create_payment,
+                            user_save_yookassa_payment_id,
+                            user_update_first_last_name)
 
 from .models import Users
-from .serializers import UserCompanyCreateSerializer, UserSerializer
+from .serializers import UserCompanySerializer, UserSerializer
 
 
 class UserModelViewSet(ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAdminUser,)
-
-
-class CustomUserCreateView(UserViewSet):
-    def perform_create(self, serializer, *args, **kwargs):
-        serializer = UserCompanyCreateSerializer(data=self.request.data)
-        if serializer.is_valid():
-            serializer.save()
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmailVerificationAndUserUpdateView(APIView):

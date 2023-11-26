@@ -2,8 +2,9 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from animals.models import Animals, Images, FormAnimals
-from animals.serializers import AnimalSerializer, FormAnimalSerializer, ImageSerializer
+from animals.models import Animals, FormAnimals, Images
+from animals.serializers import (AnimalSerializer, FormAnimalSerializer,
+                                 ImageSerializer)
 from users.models import Users
 from users.serializers import UserSerializer
 
@@ -44,7 +45,7 @@ class AnimalSerializersAPITestCase(APITestCase):
             "age": 7,
             "content": "Chi for Cha",
             "user": self.user,
-            "images": [self.image]
+            "images": [self.image],
         }
 
         self.assertEqual(data, expected_data)
@@ -87,6 +88,6 @@ class FormAnimalSerializerAPITestCase(APITestCase):
             "id": self.form.id,
             "phone": self.form.phone,
             "user": self.user,
-            "animal": self.animal
+            "animal": self.animal,
         }
         self.assertEqual(data, expected_data)

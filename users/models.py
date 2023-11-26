@@ -19,6 +19,7 @@ class Users(AbstractUser):
     name_company = models.CharField(
         max_length=150, null=True, default="ChangeCompanyName"
     )
+    description = models.TextField(null=True, blank=True)
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
 
     USERNAME_FIELD = "email"

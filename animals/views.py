@@ -6,7 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Animals
 from .permissions import IsCompanyUser
-from .serializers import AnimalSerializer, FormAnimalCreateSerializer, AnimalCreateSerializer
+from .serializers import (AnimalCreateSerializer, AnimalSerializer,
+                          FormAnimalCreateSerializer)
 from .services import animal_search
 
 
@@ -29,6 +30,7 @@ class AnimalModelViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         self.get_serializer = AnimalCreateSerializer
         return super().create(request, *args, **kwargs)
+
 
 class AnimalSearchView(ListAPIView):
     serializer_class = AnimalSerializer

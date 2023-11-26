@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
-
     "animals",
     "users",
     # "tg_bot",
@@ -187,7 +186,7 @@ STATIC_URL = "/static/"
 if not DEBUG or os.environ.get("DJANGO_RUNNING_IN_DOCKER"):
     STATIC_ROOT = BASE_DIR / "static"
 else:
-    STATICFILES_DIRS = [BASE_DIR / "static"]    
+    STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Base url to serve media files
 MEDIA_URL = "/media/"
@@ -235,7 +234,10 @@ DJOSER = {
     "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
     "ACTIVATION_URL": "#/activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": False,
-    "SERIALIZERS": {},
+    "SERIALIZERS": {
+        "user_create": "users.serializers.UserCompanySerializer",
+        "current_user": "users.serializers.UserCompanySerializer",
+    },
 }
 
 # JWT

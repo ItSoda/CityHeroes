@@ -5,14 +5,21 @@ from rest_framework import serializers
 from .models import Users
 
 
-class UserCompanyCreateSerializer(UserCreateSerializer):
+class UserCompanySerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = get_user_model()
-        fields = ("id", "email", "password", "name_company", "is_company")
+        fields = (
+            "id",
+            "email",
+            "password",
+            "name_company",
+            "is_company",
+            "description",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ("id", "email", "password")
+        fields = "__all__"
         ref_name = "CustomUser"
