@@ -21,7 +21,7 @@ services:
 
   api:
     build: .
-    image: itsoda14/cityheroes-api:1.2
+    image: django-api
     command:
       - sh
       - -c
@@ -41,8 +41,8 @@ services:
       - redis 
     volumes:
       - .:/cityheroes
-      - static_volume:/cityheroes/static
-      - media_volume:/cityheroes/media
+      - static_volume:/itsoda/static
+      - media_volume:/itsoda/media
     container_name: django-api
   nginx:
     build: 
@@ -51,8 +51,8 @@ services:
     container_name: nginx_ch
     image: nginx_ch
     volumes:
-      - static_volume:/cityheroes/static
-      - media_volume:/cityheroes/media
+      - static_volume:/itsoda/static
+      - media_volume:/itsoda/media
     depends_on:
       - api
     ports:

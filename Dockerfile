@@ -1,10 +1,18 @@
 FROM python:3.10
 
-EXPOSE 8000
+SHELL [ "/bin/bash", "-c"]
 
-WORKDIR /cityheroes
+RUN pip install --upgrade pip
 
-COPY pyproject.toml poetry.lock /cityheroes/
+RUN useradd -rms /bin/bash itsoda && chmod 777 /opt /run
+
+WORKDIR /itsoda
+
+RUN mkdir /itsoda/static && mkdir /itsoda/media && chown -R itsoda:itsoda /itsoda && chmod 777 /itsoda
+
+COPY --chown=itsoda:itsoda . .
+
+COPY pyproject.toml poetry.lock /itsoda/
 
 RUN apt-get update && apt-get install -y wget \
     && wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
@@ -20,4 +28,4 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-root --no-interaction --no-ansi
 
-COPY . /cityheroes/
+USER itsoda

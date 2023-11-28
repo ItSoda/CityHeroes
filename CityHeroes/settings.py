@@ -183,16 +183,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
-if not DEBUG or os.environ.get("DJANGO_RUNNING_IN_DOCKER"):
+if not DEBUG:
     STATIC_ROOT = BASE_DIR / "static"
+elif os.environ.get("DJANGO_RUNNING_IN_DOCKER"):
+    STATIC_ROOT = "static"
 else:
     STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Base url to serve media files
 MEDIA_URL = "/media/"
-
 # Path where media is stored
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "media"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
