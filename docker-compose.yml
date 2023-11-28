@@ -31,7 +31,7 @@ services:
         poetry run python manage.py migrate &&
         ngrok authtoken 2YAjzb799W5sMx82p3azikH2sP2_3KNzf4kzjVayk11njbvC8 &&
         ngrok http -hostname=boar-still-alpaca.ngrok-free.app 8000 &
-        poetry run gunicorn CityHeroes.wsgi:application -b :8000 
+        poetry run gunicorn CityHeroes.wsgi:application -b :8000
     environment:
       - DJANGO_RUNNING_IN_DOCKER=True
     ports:
@@ -40,7 +40,7 @@ services:
       - mysql
       - redis 
     volumes:
-      - .:/cityheroes
+      - .:/itsoda
       - static_volume:/itsoda/static
       - media_volume:/itsoda/media
     container_name: django-api
