@@ -59,6 +59,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -71,6 +72,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
+    "channels",
+
     "animals",
     "users",
     # "tg_bot",
@@ -106,7 +109,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "CityHeroes.wsgi.application"
-
+ASGI_APPLICATION = "CityHeroes.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
