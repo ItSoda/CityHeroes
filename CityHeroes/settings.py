@@ -76,7 +76,7 @@ INSTALLED_APPS = [
 
     "animals",
     "users",
-    "chats"
+    "chat",
     # "tg_bot",
 ]
 
@@ -113,24 +113,23 @@ WSGI_APPLICATION = "CityHeroes.wsgi.application"
 
 # Channels
 ASGI_APPLICATION = "CityHeroes.asgi.application"
-if os.environ.get("DJANGO_RUNNING_IN_DOCKER"):
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [("redis", "6379")],
-            },
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("127.0.0.1", "6379")],
         },
-    }
-else:
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [("127.0.0.1", "6379")],
-            },
-        },
-    }
+    },
+}
+# else:
+#     CHANNEL_LAYERS = {
+#         'default': {
+#             'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#             'CONFIG': {
+#                 "hosts": [("127.0.0.1", "6379")],
+#             },
+#         },
+#     }
 
 
 # Database

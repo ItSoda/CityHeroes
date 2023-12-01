@@ -791,6 +791,25 @@ files = [
 ]
 
 [[package]]
+name = "djangochannelsrestframework"
+version = "1.2.0"
+description = "RESTful API for WebSockets using django channels."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "djangochannelsrestframework-1.2.0-py3-none-any.whl", hash = "sha256:6e4202bb26491874c7c07dee48b91a70fc9afab5a6c7d680f50ade8da4be4eff"},
+    {file = "djangochannelsrestframework-1.2.0.tar.gz", hash = "sha256:fc689d21f9edcc5ec2747dafe36422acc84c059bf858b05555ae3199a948250d"},
+]
+
+[package.dependencies]
+channels = ">=4.0.0"
+Django = ">=3.2"
+djangorestframework = ">=3.14.0"
+
+[package.extras]
+tests = ["channels[daphne] (>=4.0.0)", "coverage (>=6.3.1)", "pytest (>=7.0.1)", "pytest-asyncio (>=0.18.1)", "pytest-django (>=4.5.2)"]
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -2043,4 +2062,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "4bf67ec23d1205422158085c8a236e5ffde174759322e65113df489c81d85fe8"
+content-hash = "a0489bfb3de0b1e3e181e66171ec985d47e474653469ed57d6e6a34c89a28bf6"

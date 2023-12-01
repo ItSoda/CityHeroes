@@ -16,7 +16,7 @@ from users.services import (EmailVerificationHandler, check_last_first_name,
 
 from .models import Users
 from .serializers import UserCompanySerializer, UserSerializer
-
+from django.contrib.auth.views import LoginView
 
 class UserModelViewSet(ModelViewSet):
     queryset = Users.objects.all()

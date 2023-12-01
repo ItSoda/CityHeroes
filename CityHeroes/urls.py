@@ -12,7 +12,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("animals.urls")),
     path("api/", include("users.urls")),
-    path("chat/", include("chats.urls")),
+    path("chat/", include("chat.urls")),
     # Регистрация, авторизация
     path("auth/", include("djoser.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
