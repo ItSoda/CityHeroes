@@ -70,6 +70,7 @@
                 //setMessages(old=>data.messages);
                 break;
             case "create":
+                document.querySelector('#chat-log').value += (data.data.text + '\n');
                 console.log(data.action, data.data)
                 //setMessages(old=>[...old, data])
                 break;
