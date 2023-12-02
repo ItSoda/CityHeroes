@@ -5,7 +5,7 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-<h4>Hi - <span id="username"></span></h4>
+<h4>Hi - <span id="email"></span></h4>
 <textarea id="chat-log" cols="100" rows="20"></textarea><br>
 <input id="chat-message-input" type="text" size="100"><br>
 <input id="chat-message-submit" type="button" value="Send">
@@ -57,20 +57,19 @@
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        console.log('RealTime', data.data)
         switch (data.action) {
             case "retrieve":
                 console.log(data.data)
-                document.getElementById('username').innerText = data.data.host.username
+                document.getElementById('email').innerText  = data.data.host.email
                 for (let mess of data.data.messages) {
-                    console.log(mess.text)
+                    document.querySelector('#chat-log').value += (mess.user.email + ": " + mess.text + "\n");
                 }
 
                 //setRoom(old =>data.data);
                 //setMessages(old=>data.messages);
                 break;
             case "create":
-                document.querySelector('#chat-log').value += (data.data.text + '\n');
+                document.querySelector('#chat-log').value += (data.data.user.email + ": " + data.data.text + '\n');
                 console.log(data.action, data.data)
                 //setMessages(old=>[...old, data])
                 break;
