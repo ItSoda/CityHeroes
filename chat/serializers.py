@@ -1,26 +1,6 @@
-from .models import Users, Room, Message
+from .models import Room, Message
 from rest_framework import serializers
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         exclude = ["password"]
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Users
-        fields = ["id", "username", "email", "password"]
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = Users(
-            email=validated_data['email'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+from users.serializers import UserSerializer
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -39,6 +19,8 @@ class MessageSerializer(serializers.ModelSerializer):
 class RoomSerializer(serializers.ModelSerializer):
     last_message = serializers.SerializerMethodField()
     messages = MessageSerializer(many=True, read_only=True)
+    host = UserSerializer()
+    current_users = UserSerializer(many=True)
 
     class Meta:
         model = Room
@@ -47,4 +29,4 @@ class RoomSerializer(serializers.ModelSerializer):
         read_only_fields = ["messages", "last_message"]
 
     def get_last_message(self, obj: Room):
-        return MessageSerializer(obj.messages.order_by('created_at').last()).data
+        return MessageSerializer(obj.messages.order_by("created_at").last()).data

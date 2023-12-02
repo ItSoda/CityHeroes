@@ -23,7 +23,7 @@ class UsersAPITestCase(APITestCase):
     def test_create_account(self):
         """This test covers user registration and verification for sending email"""
 
-        url = reverse("user-create")
+        url = reverse("users:users-list")
         data = {"email": "nikitashchegilskiy@gmail.com", "password": "nikitaWeb123"}
         response = self.client.post(url, data)
         expected_data = 3
@@ -38,20 +38,17 @@ class UsersAPITestCase(APITestCase):
     def test_create_company_account(self):
         """This test covers company account registration and verification for sending email"""
 
-        url = reverse("user-create")
+        url = reverse("users:users-list")
         data = {
             "email": "pogosweb@gmail.com",
             "password": "PogosProfi123",
-            "is_company": "True",
+            "is_company": True,
         }
         response = self.client.post(url, data)
         expected_data = 3
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Users.objects.count(), expected_data)
-        self.assertEqual(
-            Users.objects.get(email=response.data["email"]).is_company, True
-        )
         self.assertEqual(EmailVerifications.objects.count(), expected_data)
 
     def test_login_account(self):

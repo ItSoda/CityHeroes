@@ -21,5 +21,13 @@ class UserCompanySerializer(UserCreateSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = "__all__"
-        ref_name = "CustomUser"
+        fields = ["id", "email", "password"]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        user = Users(
+            email=validated_data["email"],
+        )
+        user.set_password(validated_data["password"])
+        user.save()
+        return user

@@ -9,14 +9,18 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from yookassa.domain.notification import WebhookNotificationFactory
 
-from users.services import (EmailVerificationHandler, check_last_first_name,
-                            create_auto_payment, create_payment,
-                            user_save_yookassa_payment_id,
-                            user_update_first_last_name)
+from users.services import (
+    EmailVerificationHandler,
+    check_last_first_name,
+    create_auto_payment,
+    create_payment,
+    user_save_yookassa_payment_id,
+    user_update_first_last_name,
+)
 
 from .models import Users
-from .serializers import UserCompanySerializer, UserSerializer
-from django.contrib.auth.views import LoginView
+from .serializers import UserSerializer
+
 
 class UserModelViewSet(ModelViewSet):
     queryset = Users.objects.all()
