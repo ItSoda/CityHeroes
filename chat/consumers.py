@@ -3,6 +3,7 @@ import json
 from asgiref.sync import sync_to_async, async_to_sync
 from channels.db import database_sync_to_async
 from djangochannelsrestframework.generics import GenericAsyncAPIConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 from djangochannelsrestframework import mixins
 from djangochannelsrestframework.observer.generics import (
     ObserverModelInstanceMixin,
@@ -10,7 +11,9 @@ from djangochannelsrestframework.observer.generics import (
 )
 from djangochannelsrestframework.observer import model_observer
 
-from .models import Room, Message
+from django.db.models import Q
+
+from .models import Room, Message, PersonalMessage
 from users.models import Users
 from .serializers import MessageSerializer, RoomSerializer, UserSerializer
 
@@ -37,10 +40,10 @@ class RoomConsumer(ObserverModelInstanceMixin, GenericAsyncAPIConsumer):
         await self.remove_user_from_room(pk)
 
     @action()
-    async def create_message(self, message, **kwargs):
+    async def create_message(self, message, image=None, **kwargs):
         room: Room = await self.get_room(pk=self.room_subscribe)
         await database_sync_to_async(Message.objects.create)(
-            room=room, user=self.scope["user"], text=message
+            room=room, sender=self.scope["user"], text=message, image=image
         )
 
     @action()
@@ -109,3 +112,64 @@ class UserConsumer(
 ):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
+
+
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+from asgiref.sync import sync_to_async
+from .models import PersonalMessage
+
+
+# class PersonalChatConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         await self.accept()
+
+#     async def disconnect(self, close_code):
+#         pass
+
+#     async def receive(self, text_data):
+#         data = json.loads(text_data)
+#         message = data['message']
+#         sender_id = data['sender_id']
+#         receiver_id = data['receiver_id']
+
+#         # Save the message to the database
+#         await self.save_message(sender_id, receiver_id, message)
+
+#         # Send the message to the receiver's personal chat
+#         await self.send_personal_message(sender_id, receiver_id, message)
+
+#     @sync_to_async
+#     def save_message(self, sender_id, receiver_id, message):
+#         sender = Users.objects.get(id=sender_id)
+#         receiver = Users.objects.get(id=receiver_id)
+
+#         Message.objects.create(sender=sender, receiver=receiver, text=message)
+
+#     @sync_to_async
+#     def get_user_channel_name(self, user_id):
+#         # Generate a unique channel name for the user
+#         return f"user{user_id}"
+
+#     async def send_personal_message(self, sender_id, receiver_id, message):
+#         receiver_channel_name = await self.get_user_channel_name(receiver_id)
+
+#         # Send the message to the receiver's channel
+#         await self.channel_layer.send(
+#             receiver_channel_name,
+#             {
+#                 'type': 'personal.message',
+#                 'message': message,
+#                 'sender_id': sender_id,
+#             }
+#         )
+
+#     async def personal_message(self, event):
+#         message = event['message']
+#         sender_id = event['sender_id']
+
+#         # Send the message to the connected client
+#         await self.send(text_data=json.dumps({
+#             'message': message,
+#             'sender_id': sender_id,
+#         }))

@@ -1,12 +1,12 @@
 from .models import Room, Message
 from rest_framework import serializers
 from users.serializers import UserSerializer
-
+from animals.serializers import ImageFieldFromURL
 
 class MessageSerializer(serializers.ModelSerializer):
     created_at_formatted = serializers.SerializerMethodField()
-    user = UserSerializer()
-
+    sender = UserSerializer()
+    image = ImageFieldFromURL()
     class Meta:
         model = Message
         exclude = []
