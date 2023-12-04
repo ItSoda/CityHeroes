@@ -10,7 +10,7 @@ class Room(models.Model):
     )
 
     def __str__(self):
-        return f"Room({self.name} {self.host})"
+        return f"Room({self.name} {self.host} {self.id})"
 
 
 class Message(models.Model):
@@ -21,7 +21,7 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message({self.user} {self.room})"
+        return f"Message({self.sender} {self.room})"
 
 
 class PersonalMessage(models.Model):

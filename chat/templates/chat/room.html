@@ -5,7 +5,6 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-<h4>Hi - <span id="username"></span></h4>
 <textarea id="chat-log" cols="100" rows="20"></textarea><br>
 <input id="chat-message-input" type="text" size="100"><br>
 <input id="chat-image-input" type='file'>
@@ -16,40 +15,38 @@
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
     crossorigin="anonymous"></script>
 <script>
-    const room_pk = "{{ room.pk }}";
+    const pk = 15
     const request_id = new Date().getTime()
     const token = ''
-    console.log(room_pk)
     console.log(request_id)
     console.log("request", '{{request}}')
     const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/?token=${localStorage.getItem('Token')}`);
 
 
     chatSocket.onopen = function () {
+        // chatSocket.send(
+        //     JSON.stringify({
+        //         pk: room_pk,
+        //         action: "join_room",
+        //         request_id: request_id,
+        //     })
+        // );
         chatSocket.send(
             JSON.stringify({
-                pk: room_pk,
-                action: "join_room",
-                request_id: request_id,
-            })
-        );
-        chatSocket.send(
-            JSON.stringify({
-                pk: room_pk,
                 action: "retrieve",
                 request_id: request_id,
+                pk: pk
             })
         );
         chatSocket.send(
             JSON.stringify({
-                pk: room_pk,
                 action: "subscribe_to_messages_in_room",
                 request_id: request_id,
             })
         );
         chatSocket.send(
             JSON.stringify({
-                pk: room_pk,
+                pk: pk,
                 action: "subscribe_instance",
                 request_id: request_id,
             })
@@ -61,7 +58,6 @@
         switch (data.action) {
             case "retrieve":
                 console.log(data.data)
-                document.getElementById('username').innerText  = data.data.host.email
                 for (let mess of data.data.messages) {
                     if (mess.image) {
                         const imgElement = document.createElement('img');
