@@ -73,9 +73,9 @@ INSTALLED_APPS = [
     "drf_yasg",
     "corsheaders",
     "channels",
-
     "animals",
     "users",
+    "chat",
     # "tg_bot",
 ]
 
@@ -109,7 +109,27 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "CityHeroes.wsgi.application"
+
+# Channels
 ASGI_APPLICATION = "CityHeroes.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", "6379")],
+        },
+    },
+}
+# else:
+#     CHANNEL_LAYERS = {
+#         'default': {
+#             'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#             'CONFIG': {
+#                 "hosts": [("127.0.0.1", "6379")],
+#             },
+#         },
+#     }
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -252,13 +272,13 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
         "user_create": "users.serializers.UserCompanySerializer",
-        "current_user": "users.serializers.UserCompanySerializer",
+        "current_user": "users.serializers.UserProfile",
     },
 }
 
 # JWT
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1440),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=144000),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,

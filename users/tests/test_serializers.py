@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 
 from users.models import Users
-from users.serializers import UserCompanyCreateSerializer, UserSerializer
+from users.serializers import UserCompanySerializer, UserSerializer
 
 
 class SerializersUsersAPITest(APITestCase):
@@ -23,30 +23,32 @@ class SerializersUsersAPITest(APITestCase):
         """This test covers UserSerializer"""
 
         data = UserSerializer([self.user_1, self.user_2], many=True).data
+        print(data)
+        print()
         expected_data = [
             {
                 "id": self.user_1.id,
                 "email": "nikita@gmail.com",
-                "password": self.user_1.password,
             },
             {
                 "id": self.user_2.id,
                 "email": "nikitaaa@gmail.com",
-                "password": self.user_2.password,
             },
         ]
+        print(expected_data)
         self.assertEqual(expected_data, data)
 
     def test_user_company_create_serializer(self):
         """This test covers UserCompanyCreateSerializer"""
 
-        data = UserCompanyCreateSerializer(self.user_company_1).data
+        data = UserCompanySerializer(self.user_company_1).data
         expected_data = (
             {
                 "id": self.user_company_1.id,
                 "email": "nikitaalaf@gmail.com",
                 "name_company": "ChangeCompanyName",
                 "is_company": True,
+                "description": None,
             },
         )
         self.assertEqual(expected_data[0], data)

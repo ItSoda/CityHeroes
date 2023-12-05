@@ -1,8 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import (AnimalModelViewSet, AnimalSearchView,
-                    FormAnimalsCreateAPIView)
+from .views import AnimalModelViewSet, AnimalSearchView, FormAnimalsCreateAPIView
 
 app_name = "animals"
 

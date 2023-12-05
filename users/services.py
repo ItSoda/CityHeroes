@@ -58,21 +58,6 @@ class EmailVerificationHandler:
             return False
 
 
-def check_last_first_name(request):
-    if "first_name" not in request.data or "last_name" not in request.data:
-        return True
-    return False
-
-
-def user_update_first_last_name(user_id, request):
-    from users.models import Users
-
-    user = get_object_or_404(Users, id=user_id)
-    user.first_name = request.data["first_name"]
-    user.last_name = request.data["last_name"]
-    user.save()
-
-
 # YOOKASSA PAYMENT
 def create_payment(user, request):
     from django.conf import settings
