@@ -41,7 +41,7 @@ class RoomConsumer(ObserverModelInstanceMixin, GenericAsyncAPIConsumer):
 
     @action()
     async def create_message(self, message, image=None, **kwargs):
-        room: Room = await self.get_room(15)
+        room: Room = await self.get_room(1)
         await database_sync_to_async(Message.objects.create)(
             sender=self.scope["user"], text=message, image=image, room=room
         )
@@ -49,7 +49,7 @@ class RoomConsumer(ObserverModelInstanceMixin, GenericAsyncAPIConsumer):
     # Подписка на все методы message_activity
     @action()
     async def subscribe_to_messages_in_room(self, **kwargs):
-        room: Room = await self.get_room(15)
+        room: Room = await self.get_room(1)
         await self.message_activity.subscribe(room=room)
 
     # Следит за обновлениями сообщений
@@ -69,7 +69,7 @@ class RoomConsumer(ObserverModelInstanceMixin, GenericAsyncAPIConsumer):
 
     @message_activity.serializer
     def message_activity(self, instance: Message, action, **kwargs):
-        room_id = 15
+        room_id = 1
         return dict(
             data=MessageSerializer(instance).data, action=action.value, pk=room_id
         )
