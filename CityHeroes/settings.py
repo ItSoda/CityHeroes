@@ -272,7 +272,7 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
         "user_create": "users.serializers.UserCompanySerializer",
-        "current_user": "users.serializers.UserCompanySerializer",
+        "current_user": "users.serializers.UserProfile",
     },
 }
 
