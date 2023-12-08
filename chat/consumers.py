@@ -124,60 +124,64 @@ class UserConsumer(
 
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from asgiref.sync import sync_to_async
+from asgiref.sync import async_to_sync
 from .models import PersonalMessage
 
 
-# class PersonalChatConsumer(AsyncWebsocketConsumer):
-#     async def connect(self):
-#         await self.accept()
+# need work
+class UserChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.user_pk = self.scope["url_route"]["kwargs"]["user_pk"]
+        self.room_group_name = f"personalchat_{self.user_pk}"
 
-#     async def disconnect(self, close_code):
-#         pass
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
 
-#     async def receive(self, text_data):
-#         data = json.loads(text_data)
-#         message = data['message']
-#         sender_id = data['sender_id']
-#         receiver_id = data['receiver_id']
+        await self.accept()
 
-#         # Save the message to the database
-#         await self.save_message(sender_id, receiver_id, message)
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
 
-#         # Send the message to the receiver's personal chat
-#         await self.send_personal_message(sender_id, receiver_id, message)
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        message = data['message']
+        sender = self.scope["user"]
+        receiver = await self.get_receiver(self.user_pk)
+        # # Save message to database
+        await self.save_message(sender, receiver, message)
 
-#     @sync_to_async
-#     def save_message(self, sender_id, receiver_id, message):
-#         sender = Users.objects.get(id=sender_id)
-#         receiver = Users.objects.get(id=receiver_id)
+        # Send message to room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
 
-#         Message.objects.create(sender=sender, receiver=receiver, text=message)
+    async def chat_message(self, event):
+        message = event['message']
 
-#     @sync_to_async
-#     def get_user_channel_name(self, user_id):
-#         # Generate a unique channel name for the user
-#         return f"user{user_id}"
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))
 
-#     async def send_personal_message(self, sender_id, receiver_id, message):
-#         receiver_channel_name = await self.get_user_channel_name(receiver_id)
+    @staticmethod
+    @sync_to_async
+    def save_message(sender, receiver, message, image=None):
+        PersonalMessage.objects.create(
+            sender=sender, receiver=receiver, text=message, image=image
+        )
 
-#         # Send the message to the receiver's channel
-#         await self.channel_layer.send(
-#             receiver_channel_name,
-#             {
-#                 'type': 'personal.message',
-#                 'message': message,
-#                 'sender_id': sender_id,
-#             }
-#         )
-
-#     async def personal_message(self, event):
-#         message = event['message']
-#         sender_id = event['sender_id']
-
-#         # Send the message to the connected client
-#         await self.send(text_data=json.dumps({
-#             'message': message,
-#             'sender_id': sender_id,
-#         }))
+    @staticmethod
+    @sync_to_async
+    def get_receiver(user_pk):
+        return Users.objects.get(id=user_pk)
