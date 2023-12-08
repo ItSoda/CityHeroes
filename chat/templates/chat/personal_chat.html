@@ -1,0 +1,49 @@
+<!-- templates/chat/user_chat.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный чат</title>
+    <style>
+        #chat-log {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #message-input {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-log"></div>
+    <input type="text" id="message-input" placeholder="Введите ваше сообщение">
+    <button onclick="sendMessage()">Отправить</button>
+
+    <script>
+        const userPk = "{{ user_pk }}";
+        const token = ''
+        const socket = new WebSocket(`ws://${window.location.host}/ws/chat/${userPk}/?token=${localStorage.getItem('Token')}`);
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log('RealTime', data.data)
+            const chatLog = document.getElementById("chat-log");
+            const message = JSON.parse(event.data).message;
+            chatLog.innerHTML += `<p>${message}</p>`;
+            chatLog.scrollTop = chatLog.scrollHeight;
+        };
+
+        function sendMessage() {
+            const messageInput = document.getElementById("message-input");
+            const message = messageInput.value.trim();
+
+            if (message !== "") {
+                socket.send(JSON.stringify({ 'message': message }));
+                messageInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
