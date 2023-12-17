@@ -3,12 +3,11 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql
+    container_name: mysql-cityheroes
     restart: always
     environment:
-      - MYSQL_DATABASE=cityheroes
-      - MYSQL_ROOT_USER=root
-      - MYSQL_ROOT_PASSWORD=nik140406
+      - MYSQL_DATABASE=CityHeroes
+      - MYSQL_ROOT_PASSWORD=pass_prod
     volumes:
       - mysql_data:/var/lib/mysql/
 
@@ -26,14 +25,17 @@ services:
       - sh
       - -c
       - |
-        dockerize -wait tcp://mysql:3306 -timeout 60s &&
+        dockerize -wait tcp://mysql:3306 -timeout 300s &&
         poetry run python manage.py collectstatic --noinput &&
         poetry run python manage.py migrate &&
         ngrok authtoken 2YAjzb799W5sMx82p3azikH2sP2_3KNzf4kzjVayk11njbvC8 &&
         ngrok http -hostname=boar-still-alpaca.ngrok-free.app 8000 &
-        poetry run gunicorn CityHeroes.wsgi:application -b :8000
+        poetry run gunicorn CityHeroes.wsgi:application -b :8000 &&
+        poetry run celery -A CRMService worker -l info -S solo
+    env_file:
+      - docker-compose.env
     environment:
-      - DJANGO_RUNNING_IN_DOCKER=True
+      - DOCKER_CONTAINER=True
     ports:
       - "8000:8000" 
     depends_on:

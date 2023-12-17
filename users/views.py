@@ -14,9 +14,6 @@ from users.services import (
     user_save_yookassa_payment_id,
 )
 
-from .models import Users
-
-
 class EmailVerificationAndUserUpdateView(APIView):
     serializer_class = UserSerializer
 

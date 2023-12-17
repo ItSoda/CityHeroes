@@ -9,6 +9,7 @@ from .permissions import IsCompanyUser
 from .serializers import (
     AnimalCreateSerializer,
     AnimalSerializer,
+    AnimalShortSerializer,
     FormAnimalCreateSerializer,
 )
 from .services import animal_search
@@ -17,17 +18,11 @@ from .services import animal_search
 class AnimalModelViewSet(ModelViewSet):
     queryset = Animals.objects.all()
     serializer_class = AnimalSerializer
-
-    def get_permissions(self):
-        if self.action in ["create", "destroy", "update", "partial_update"]:
-            permission_classes = [IsCompanyUser]
-        elif self.action in ["list", "retrieve"]:
-            permission_classes = [AllowAny]
-
-        return [permission() for permission in permission_classes]
+    permission_classes = (AllowAny,)
 
     @method_decorator(cache_page(70))
     def list(self, request, *args, **kwargs):
+        self.get_serializer = AnimalShortSerializer
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):

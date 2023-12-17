@@ -18,3 +18,16 @@ class Tg_Bot(models.Model):
 
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "тг_бот"
+        verbose_name_plural = "ТГ_БОТ"
+
+
+class News(models.Model):
+    text = models.TextField()
+    photo = models.ImageField(upload_to="news_bot_images", null=True, blank=True)
+
+    class Meta:
+        verbose_name = "новость"
+        verbose_name_plural = "Новости"

@@ -11,17 +11,14 @@ class Users(AbstractUser):
     """Model for Users"""
 
     email = models.EmailField(unique=True)
+    username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
     is_verified_email = models.BooleanField(default=False)
     is_company = models.BooleanField(default=False)
-    company_name = models.CharField(
-        unique=True, max_length=150, null=True, blank=True
-    )
     description = models.TextField(null=True, blank=True)
     photo = models.ImageField(upload_to="user_images", null=True, blank=True)
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
-    username = None
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -23,10 +23,10 @@ class ImageFieldFromURL(serializers.ImageField):
         return super().to_internal_value(data)
     
 
-class UserCompanySerializer(UserCreateSerializer):
+class UserRegistSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = Users
-        fields = ("id", "email", "password", "is_company")
+        fields = ("id", "email", "password", "username")
 
 
 class UserProfile(UserSerializer):
@@ -43,4 +43,5 @@ class UserSerializer(UserSerializer):
 
     class Meta(UserSerializer.Meta):
         model = Users
-        fields = ("id", "email", "last_name", "first_name", "photo", "company_name")
+        fields = ("id", "photo", "username")
+        ref_name = "UserSerializerCustom"

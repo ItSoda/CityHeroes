@@ -39,6 +39,14 @@ class AnimalSerializer(serializers.ModelSerializer):
         model = Animals
         fields = "__all__"
 
+class AnimalShortSerializer(serializers.Serializer):
+    user = UserSerializer()
+    images = ImageSerializer(many=True)
+
+    class Meta:
+        model = Animals
+        fields = ("name", "images", "user")
+
 
 class FormAnimalCreateSerializer(serializers.ModelSerializer):
     animal = serializers.IntegerField(write_only=True)

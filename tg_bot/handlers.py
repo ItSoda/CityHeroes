@@ -1,8 +1,13 @@
+import urllib.request
+from io import BytesIO
+
+import requests
 import telebot
 from django.conf import settings
+from django.core.files import File
 from telebot import types
 
-from .models import Tg_Bot
+from .models import News, Tg_Bot
 
 # Вставляем токен бота
 bot = telebot.TeleBot(settings.TELEGRAM_BOT_TOKEN)
@@ -16,16 +21,12 @@ def handle_start(message):
     first_name = message.from_user.first_name
     last_name = message.from_user.last_name
 
-    # # make button
-    # markup = types.ReplyKeyboardMarkup()
-    # btn1 = types.KeyboardButton('Our site')
-    # btn2 = types.KeyboardButton('Delete photo')
-    # markup.row(btn1, btn2)
-    # markup.add(types.KeyboardButton('edit photo'))
-
     try:
         if Tg_Bot.objects.get(user_id=user_id):
-            bot.reply_to(message, f"Мы всегда с вами! {first_name}")
+            bot.reply_to(
+                message,
+                f"Мы всегда с вами {first_name}! Воспользуйся /help для подробной информации",
+            )
 
     except Tg_Bot.DoesNotExist:
         Tg_Bot.objects.create(
@@ -34,15 +35,16 @@ def handle_start(message):
             first_name=first_name,
             last_name=last_name,
         )
-        bot.send_message(message.chat.id, f"Привет, {first_name}! ")
+        bot.send_message(
+            message.chat.id,
+            f"Привет, {first_name}! Воспользуйся /help для подробной информации",
+        )
 
-    # bot.register_next_step_handler(message, on_click)
 
-
-# Рассылка всем пользователям
+# Рассылка всем пользователям от лица админа
 @bot.message_handler(commands=["send_message"])
 def send_message(message):
-    if message.chat.id == settings.ADMIN_ID:
+    if int(settings.ADMIN_ID) == int(message.chat.id):
         markup = types.ForceReply(selective=False)
         bot.send_message(
             message.chat.id,
@@ -68,37 +70,57 @@ def process_text(message):
 def process_photo(message, text):
     if message.photo:
         photo = message.photo[-1].file_id  # Получаем file_id фотографии
-        users = TG_USER.objects.all()
+        users = Tg_Bot.objects.all()
 
         for user in users:
             try:
                 bot.send_photo(user.user_id, photo, caption=text)
+                News.objects.create(text=text, photo=photo)
             except Exception as e:
                 print(f"Произошла ошибка {e}")
         else:
             bot.send_message(message.chat.id, "Рассылка завершена")
     else:
-        users = TG_USER.objects.all()
+        users = Tg_Bot.objects.all()
 
         for user in users:
             try:
                 bot.send_message(user.user_id, text)
+                News.objects.create(
+                    text=text,
+                )
             except Exception as e:
                 print(f"Произошла ошибка {e}")
 
 
-# def on_click(message):
-#     if message.text == 'Our site':
-#         bot.send_message(message.chat.id, 'Website is open')
+@bot.message_handler(commands=["news"])
+def news(message):
+    news = News.objects.all()
 
-# @bot.message_handler(commands=['site'])
-# def site(message):
-#     webbrowser.open('https://red-store.site')
+    for new in news:
+        if new.photo is not None:
+            photo_path = new.photo.path
+            caption = new.text
+            send_photo_with_caption(bot, message.chat.id, photo_path, caption)
+        else:
+            bot.send_message(message.chat.id, f"{new.text}")
+
+
+def send_photo_with_caption(bot, chat_id, photo_path, caption):
+    with open(photo_path, "rb") as photo:
+        bot.send_photo(chat_id, photo, caption=caption)
+
+
+@bot.message_handler(commands=["app"])
+def app(message):
+    bot.send_message(
+        message.chat.id, "Скачайте наше бесплатное приложение по ссылке: https.."
+    )
 
 
 @bot.message_handler(commands=["help"])
 def help(message):
-    text = "Команды:\n/start - перезапуск бота \n/help - Помощь \n/link - ссылка на наш сайт"
+    text = "Команды:\n/start - перезапуск бота \n/help - Помощь \n/app - ссылка на наше приложение \n/news - новости нашего проекта"
     bot.send_message(
         message.chat.id,
         f"Приветствую {message.from_user.first_name}\n \n{text}",
@@ -106,37 +128,12 @@ def help(message):
     )
 
 
-@bot.message_handler(commands=["link"])
-def link(message):
-    bot.send_message(message.chat.id, "https://red-store.site")
-
-
-# @bot.message_handler(content_types=['photo'])
-# def get_photo(message):
-#     markup = types.InlineKeyboardMarkup()
-#     btn1 = types.InlineKeyboardButton('Our site', url='https://red-store.site')
-#     btn2 = types.InlineKeyboardButton('Delete photo', callback_data='delete')
-
-# markup.row(btn1, btn2)
-# markup.add(types.InlineKeyboardButton('edit text', callback_data='edit'))
-
-# bot.reply_to(message, 'Какое красивое фото', reply_markup=markup)
-
-# # Выполнение запросов
-# @bot.callback_query_handler(func=lambda callback: True)
-# def callback_message(callback):
-#     if callback.data == 'delete':
-#         bot.delete_message(callback.message.chat.id, callback.message.message_id - 1)
-
-#     elif callback.data == 'edit':
-#         bot.edit_message_text('Edit text ', callback.message.chat.id, callback.message.message_id)
-
-
 # Ловит любое сообщение
 @bot.message_handler()
 def info(message):
     if message.text.lower() == "id":
         bot.reply_to(message, f"ID: {message.from_user.id}")
+    bot.reply_to(message, f"Лучше взгляните на наших животных ;)")
 
 
 def start_bot():
