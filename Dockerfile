@@ -1,6 +1,6 @@
-FROM python:3.10.13-alpine
+FROM python:3.10.13
 
-SHELL [ "/bin/sh", "-c"]
+SHELL [ "/bin/bash", "-c"]
 
 EXPOSE 8000
 
