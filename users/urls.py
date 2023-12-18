@@ -5,15 +5,18 @@ from .views import (
     EmailVerificationAndUserUpdateView,
     SubscriptionCreateView,
     YookassaWebhookView,
+    UserViewSet,
+    UserSearchView
 )
 
 app_name = "users"
 
-# router = routers.DefaultRouter()
-# router.register("users", UserModelViewSet, basename="users")
+router = routers.DefaultRouter()
+router.register("users", UserViewSet, basename="users")
 
 urlpatterns = [
-    # path("", include(router.urls)),
+    path("", include(router.urls)),
+    path("users/search/", UserSearchView.as_view(), name="search"),
     path(
         "verify/<str:email>/<uuid:code>/",
         EmailVerificationAndUserUpdateView.as_view(),

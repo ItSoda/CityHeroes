@@ -20,7 +20,7 @@ class AnimalModelViewSet(ModelViewSet):
     serializer_class = AnimalSerializer
     permission_classes = (AllowAny,)
 
-    @method_decorator(cache_page(70))
+    @method_decorator(cache_page(100))
     def list(self, request, *args, **kwargs):
         self.get_serializer = AnimalShortSerializer
         return super().list(request, *args, **kwargs)
