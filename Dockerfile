@@ -1,5 +1,7 @@
 FROM python:3.10.13-alpine
 
+SHELL [ "/bin/sh", "-c"]
+
 EXPOSE 8000
 
 RUN pip install --upgrade pip
