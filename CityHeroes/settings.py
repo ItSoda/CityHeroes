@@ -244,7 +244,7 @@ DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL")
 
 
 # CSRF
-CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app", "http://red-store.site", "https://red-store.site"]
 
 
 # yookassa

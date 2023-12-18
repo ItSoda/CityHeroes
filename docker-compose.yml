@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2'
 
 services:
   mysql:
@@ -13,14 +13,14 @@ services:
 
   redis: 
     image: redis:latest
-    container_name: redis
+    container_name: redis-cityheroes
     restart: always
     ports:
       - "6379:6379"
 
   api:
     build: .
-    image: django-api
+    image: cityheroes-api
     command:
       - sh
       - -c
@@ -28,14 +28,14 @@ services:
         dockerize -wait tcp://mysql:3306 -timeout 300s &&
         poetry run python manage.py collectstatic --noinput &&
         poetry run python manage.py migrate &&
-        ngrok authtoken 2YAjzb799W5sMx82p3azikH2sP2_3KNzf4kzjVayk11njbvC8 &&
-        ngrok http -hostname=boar-still-alpaca.ngrok-free.app 8000 &
         poetry run gunicorn CityHeroes.wsgi:application -b :8000 &&
         poetry run celery -A CityHeroes worker -l info -S solo
     env_file:
       - docker-compose.env
     environment:
       - DOCKER_CONTAINER=True
+      - VIRTUAL_HOST=${ALLOWED_HOST}
+      - LETSENCRYPT_HOST=${ALLOWED_HOST}
     ports:
       - "8000:8000" 
     depends_on:
@@ -50,17 +50,34 @@ services:
     build: 
       dockerfile: ./Dockerfile
       context: ./docker/nginx/
-    container_name: nginx_ch
-    image: nginx_ch
+    container_name: nginx_cityheroes
+    image: nginx_cityheroes
     volumes:
       - static_volume:/itsoda/static
       - media_volume:/itsoda/media
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - api
     ports:
-      - "80:80"
+      - "${NGINX_EXTERNAL_PORT}:80"
+      - "${NGINX_EXTERNAL_SSL_PORT}:443"
+  acme_companion:
+    image: nginxproxy/acme-companion:2.2
+    container_name: cityheroes_acme_companion
+    volumes_from:
+      - nginx
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - acme:/etc/acme.sh
 
 volumes:
   mysql_data: null
   static_volume:
   media_volume:
+  certs:
+  vhost:
+  html:
+  acme:

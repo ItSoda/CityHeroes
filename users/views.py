@@ -20,7 +20,7 @@ from .models import Users
 
 
 class UserViewSet(ModelViewSet):
-    queryset = Users.object.all()
+    queryset = Users.objects.all()
     serializer_class = UserSerializer
 
 

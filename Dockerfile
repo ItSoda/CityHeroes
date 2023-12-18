@@ -2,6 +2,8 @@ FROM python:3.10
 
 SHELL [ "/bin/bash", "-c"]
 
+EXPOSE 8000
+
 RUN pip install --upgrade pip
 
 RUN useradd -rms /bin/bash itsoda && chmod 777 /opt /run

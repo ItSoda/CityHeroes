@@ -1,0 +1,7 @@
+location /static/ {
+    alias /itsoda/static/;
+}
+
+location /media/ {
+    alias /itsoda/media/;
+}
