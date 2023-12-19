@@ -34,8 +34,8 @@ services:
       - docker-compose.env
     environment:
       - DOCKER_CONTAINER=True
-      - VIRTUAL_HOST=${ALLOWED_HOST}
-      - LETSENCRYPT_HOST=${ALLOWED_HOST}
+      - VIRTUAL_HOST=red-store.site
+      - LETSENCRYPT_HOST=red-store.site
     ports:
       - "8000:8000" 
     depends_on:
