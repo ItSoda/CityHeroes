@@ -15,6 +15,6 @@ delivery-job:
   only:
     - try-do-ci/cd
   script:
-    - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER registry.red-store.site
+    - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER red-store.site
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
