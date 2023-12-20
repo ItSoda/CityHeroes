@@ -24,7 +24,7 @@ class UsersAPITestCase(APITestCase):
         """This test covers user registration and verification for sending email"""
 
         url = reverse("users:users-list")
-        data = {"email": "nikitashchegilskiy@gmail.com", "password": "nikitaWeb123"}
+        data = {"username": "nikita", "email": "nikitashchegilskiy@gmail.com", "password": "nikitaWeb123"}
         response = self.client.post(url, data)
         expected_data = 3
 
