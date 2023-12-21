@@ -13,7 +13,7 @@ test-job:
 delivery-job:
   stage: delivery
   only:
-    - try-do-ci/cd
+    - main
   script:
     - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER red-store.site
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
