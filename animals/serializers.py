@@ -60,8 +60,11 @@ class FormAnimalCreateSerializer(serializers.ModelSerializer):
         user_id = validated_data.pop("user")
         animal_id = validated_data.pop("animal")
 
+        user = Users.objects.get(id=user_id)
+        animal = Animals.objects.get(id=animal_id)
+
         instance = FormAnimals.objects.create(
-            user_id=user_id, animal_id=animal_id, **validated_data
+            user=user, animal=animal, **validated_data
         )
 
         return instance
