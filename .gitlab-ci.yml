@@ -10,14 +10,14 @@ test-job:
     # - docker compose -f docker/test/docker-compose.yml build
     # - docker compose -f docker/test/docker-compose.yml up --abort-on-container-exit
 
-delivery-job:
-  stage: delivery
-  only:
-    - main
-  script:
-    - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER red-store.site
-    - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
-    - docker push $CI_REGISTRY_IMAGE
+# delivery-job:
+#   stage: delivery
+#   only:
+#     - main
+#   script:
+#     - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER red-store.site
+#     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
+#     - docker push $CI_REGISTRY_IMAGE
 
 # deploy-job:
 #   stage: deploy
