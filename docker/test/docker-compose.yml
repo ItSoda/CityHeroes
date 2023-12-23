@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:5.7
-    container_name: mysql-cityheroes
+    container_name: mysql-cityheroes-test
     restart: always
     env_file:
       - $env
