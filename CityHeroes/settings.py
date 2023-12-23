@@ -165,7 +165,7 @@ AUTH_USER_MODEL = "users.Users"
 
 # Redis
 REDIS_HOST = config.get("REDIS_HOST", "127.0.0.1")
-REDIS_PORT = config.get("REDIS_PORT", "6379")
+REDIS_PORT = 6379
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
