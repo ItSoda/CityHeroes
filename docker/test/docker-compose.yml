@@ -27,8 +27,8 @@ services:
       - sh
       - -c
       - |
-        dockerize -wait tcp://mysql:3306 -timeout 300s -wait tcp://redis-cityheroes-test:6379 -timeout 300s &&
-        poetry run celery -A CityHeroes worker -l info -S solo &
+        dockerize -wait tcp://mysql:3306 -timeout 300s &&
+        sleep 20 &&
         poetry run python manage.py test
         
     ports:
@@ -39,3 +39,14 @@ services:
       - mysql
       - redis 
     container_name: test-api
+
+celery:
+  build: 
+    context: ../../.
+  command: sh -c "dockerize -wait tcp://mysql:3306 -wait tcp://redis-cityheroes-test:6379 -timeout 300s && poetry run celery -A CityHeroes worker -l info -S solo"
+  env_file:
+    - $env
+  depends_on:
+    - mysql
+    - redis
+  container_name: celery-worker
