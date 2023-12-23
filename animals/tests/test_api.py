@@ -75,7 +75,7 @@ class AnimalsAPITestCase(APITestCase):
         self.assertEqual(len([response.data]), expected_data)
 
     def test_animal_partial_update(self):
-        """This test covers partial update for animals"""
+        """This test covers partial update for animal"""
 
         url = f"{settings.DOMAIN_NAME}/api/animals/{self.animal.id}/"
         data = {"name": "Cha"}
