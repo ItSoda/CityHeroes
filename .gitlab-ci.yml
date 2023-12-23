@@ -12,8 +12,6 @@ test-job:
 
 delivery-job:
   stage: delivery
-  only:
-    - main
   script:
     - echo -n "$DOCKER_REGISTRY_KEY" | docker login --username "$DOCKER_REGISTRY_USER" --password-stdin red-store.site
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
