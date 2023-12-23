@@ -75,7 +75,7 @@ class AnimalsAPITestCase(APITestCase):
         self.assertEqual(len([response.data]), expected_data)
 
     def test_animal_partial_update(self):
-        """This test covers partial update for animal"""
+        """This test covers partial update for animals"""
 
         url = f"{settings.DOMAIN_NAME}/api/animals/{self.animal.id}/"
         data = {"name": "Cha"}
@@ -86,7 +86,7 @@ class AnimalsAPITestCase(APITestCase):
         self.assertEqual(Animals.objects.count(), expected_data)
 
     def test_animal_destroy(self):
-        """This test covers delete animal"""
+        """This test covers delete animals"""
 
         url = f"{settings.DOMAIN_NAME}/api/animals/{self.animal.id}/"
         response = self.client.delete(url)
