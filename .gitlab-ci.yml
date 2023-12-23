@@ -14,5 +14,5 @@ delivery-job:
   stage: delivery
   script:
     - echo -n "$DOCKER_REGISTRY_KEY" | docker login --username "$DOCKER_REGISTRY_USER" --password-stdin docker.io/itsoda14/cityheroes-api
-    - docker tag cityheroes-api:1.0 $CI_REGISTRY_IMAGE
+    - docker tag itsoda14/cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
