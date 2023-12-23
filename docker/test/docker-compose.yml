@@ -13,7 +13,7 @@ services:
     container_name: redis-cityheroes-test
     restart: always
     ports:
-      - "6379:6379"
+      - "6378:6379"
 
   api:
     build: 
