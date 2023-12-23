@@ -28,7 +28,9 @@ services:
       - -c
       - |
         dockerize -wait tcp://mysql:3306 -timeout 300s &&
+        poetry run celery -A CityHeroes worker -l info -S solo &&
         poetry run python manage.py test
+        
     ports:
       - "8001:8000" 
     env_file:
