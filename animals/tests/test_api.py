@@ -79,7 +79,6 @@ class AnimalsAPITestCase(APITestCase):
 
         url = f"{settings.DOMAIN_NAME}/api/animals/{self.animal.id}/"
         data = {"name": "Cha"}
-        print("id")
         response = self.client.patch(url, data)
         expected_data = 1
 

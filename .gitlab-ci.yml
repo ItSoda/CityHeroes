@@ -2,12 +2,6 @@ stages:
   - test
   - delivery
 
-variables:
-  DOCKER_DRIVER: overlay2
-
-services:
-  - docker:dind
-
 test-job:
   stage: test
   script:
