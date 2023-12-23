@@ -10,7 +10,7 @@ services:
 
   redis: 
     image: redis:latest
-    container_name: redis-cityheroes
+    container_name: redis-cityheroes-test
     restart: always
     ports:
       - "6378:6379"
