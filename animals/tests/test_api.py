@@ -86,7 +86,7 @@ class AnimalsAPITestCase(APITestCase):
         self.assertEqual(Animals.objects.count(), expected_data)
 
     def test_animal_destroy(self):
-        """This test covers delete animals"""
+        """This test covers delete animal"""
 
         url = f"{settings.DOMAIN_NAME}/api/animals/{self.animal.id}/"
         response = self.client.delete(url)
