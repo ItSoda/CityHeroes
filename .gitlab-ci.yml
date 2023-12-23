@@ -18,6 +18,3 @@ test-job:
 #     - docker login -p $DOCKER-REGISTRY_KEY -u $DOCKER_REGISTRY_USER red-store.site
 #     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
 #     - docker push $CI_REGISTRY_IMAGE
-
-# deploy-job:
-#   stage: deploy
