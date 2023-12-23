@@ -1,18 +1,13 @@
 stages:
   - test
   - delivery
-
-variables:
-  DOCKER_DRIVER: overlay2
-
-services:
-  - docker:dind
+  
 
 test-job:
   stage: test
   script:
     - docker-compose -f docker/test/docker-compose.yml down
-    - docker-compose -f docker/test/docker-compose.yml build
+    - docker-compose -f docker/test/docker-compose.yml build api
     - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
 
 # delivery-job:

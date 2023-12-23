@@ -1,16 +1,16 @@
-version: '2'
+version: '3.8'
 
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql-cityheroes
+    container_name: mysql-cityheroes-test
     restart: always
     env_file:
       - $env
 
   redis: 
     image: redis:latest
-    container_name: redis-cityheroes
+    container_name: redis-cityheroes-test
     restart: always
     ports:
       - "6379:6379"
@@ -27,7 +27,9 @@ services:
         poetry run python manage.py test
     ports:
       - "8000:8000" 
+    env_file:
+      - $env
     depends_on:
       - mysql
       - redis 
-    container_name: django-api
+    container_name: test-api
