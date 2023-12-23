@@ -5,11 +5,14 @@ from pathlib import Path
 from decouple import Config, RepositoryEnv
 
 docker = os.environ.get("DOCKER_CONTAINER")
-
+test = os.environ.get("REDIS_TEST")
 env_file = ".env"
 
 if docker:
     env_file = "docker-compose.env"
+
+if test:
+    env_file = "test.env"
 
 config = Config(RepositoryEnv(env_file))
 

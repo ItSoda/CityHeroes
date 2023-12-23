@@ -12,6 +12,10 @@ services:
     image: redis:latest
     container_name: redis-cityheroes-test
     restart: always
+    env_file:
+      - test.env
+    environment:
+      - REDIS_TEST=True
     ports:
       - "6378:6379"
 
