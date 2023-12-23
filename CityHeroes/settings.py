@@ -162,10 +162,11 @@ AUTH_USER_MODEL = "users.Users"
 
 # Redis
 REDIS_HOST = config.get("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = config.get("REDIS_PORT", "6379")
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:6379/0",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -294,5 +295,5 @@ INTERNAL_IPS = [
 ]
 
 # CELERY
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379/0"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379/0"
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
