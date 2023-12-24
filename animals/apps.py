@@ -6,4 +6,4 @@ class AnimalsConfig(AppConfig):
     name = "animals"
 
     def ready(self):
-        from . import signals
+        from animals import signals

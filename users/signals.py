@@ -9,5 +9,4 @@ from users.tasks import send_email_verify_task
 @receiver(post_save, sender=Users)
 def user_post_save(created, instance, **kwargs):
     if created:
-        print("user")
         send_email_verify_task.delay(instance.id)
