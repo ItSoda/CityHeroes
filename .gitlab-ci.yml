@@ -27,9 +27,7 @@ deploy-job:
     - main
   script:
     - ssh 'root@45.8.251.246'
-    - git pull gitlab main
-    - ItSodaDevHell
-    - nik140406
+    - git pull origin main
     - docker-compose pull
     - docker-compose down
     - docker-compose up --build
