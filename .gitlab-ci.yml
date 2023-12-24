@@ -22,7 +22,7 @@ deploy-job:
   stage: deploy
   when: manual
   script:
-    - ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts root@45.8.251.246
+    - sshpass -p 'bf9awozup1' ssh root@45.8.251.246
     - git pull origin main
     - docker-compose pull
     - docker-compose down
