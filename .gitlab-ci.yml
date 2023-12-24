@@ -18,9 +18,17 @@ delivery-job:
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
 
-# deploy-job:
-#   stage: deploy
-#   when: manual
-#   only:
-#     - main
-#   script:
+deploy-job:
+  stage: deploy
+  when: manual
+  only:
+    - main
+  script:
+    - ssh root@82.148.16.67
+    - norcsqsn2q
+    - git pull gitlab main
+    - ItSodaDevHell
+    - nik140406
+    - docker-compose pull
+    - docker-compose down
+    - docker-compose up --build
