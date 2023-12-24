@@ -169,7 +169,7 @@ REDIS_PORT = 6379
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -199,7 +199,7 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
         "user_create": "users.serializers.UserRegistSerializer",
-        "current_user": "users.serializers.UserProfileSerializer",
+        "current_user": "users.serializers.UserProfile",
     },
 }
 
@@ -296,6 +296,8 @@ ADMIN_ID = config.get("ADMIN_ID")
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+REDIS_HOST = config.get("REDIS_HOST", "localhost")
 
 # CELERY
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
