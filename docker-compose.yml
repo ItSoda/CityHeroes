@@ -19,7 +19,8 @@ services:
       - "6379:6379"
 
   api:
-    image: cityheroes-api:1.0
+    build: .
+    image: cityheroes-api
     command:
       - sh
       - -c
