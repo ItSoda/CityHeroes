@@ -3,6 +3,10 @@ stages:
   - delivery
   - deploy
 
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install -y sshpass
+
 
 test-job:
   stage: test
@@ -17,6 +21,8 @@ delivery-job:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
+
+
 
 deploy-job:
   stage: deploy
