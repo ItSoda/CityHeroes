@@ -13,6 +13,6 @@ test-job:
 delivery-job:
   stage: delivery
   script:
-    - echo -n "$DOCKER_REGISTRY_KEY" | docker login --username "$DOCKER_REGISTRY_USER" --password-stdin docker.io
+    - echo -n "$DOCKER_REGISTRY_KEY" | docker login --username "$DOCKER_REGISTRY_USER" --password-stdin $CI_REGISTRY
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
