@@ -3,11 +3,6 @@ stages:
   - delivery
   - deploy
 
-before_script:
-  - apt-get update
-  - apt-get install -y sshpass
-
-
 test-job:
   stage: test
   script:
@@ -28,7 +23,6 @@ deploy-job:
   stage: deploy
   when: manual
   script:
-    - sshpass -p 'bf9awozup1' ssh root@45.8.251.246
     - git pull origin main
     - docker-compose pull
     - docker-compose down
