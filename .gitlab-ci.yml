@@ -20,10 +20,9 @@ delivery-job:
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
 
-deploy-job:
-  stage: deploy
-  when: manual
-  only:
-    - main
-  script:
-  
+# deploy-job:
+#   stage: deploy
+#   when: manual
+#   only:
+#     - main
+#   script:
