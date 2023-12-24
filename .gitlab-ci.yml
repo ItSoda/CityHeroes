@@ -23,7 +23,9 @@ deploy-job:
   stage: deploy
   when: manual
   script:
-    - /usr/bin/git pull origin main
-    - /usr/bin/docker-compose pull
-    - /usr/bin/docker-compose down
-    - /usr/bin/docker-compose up --build
+    - apt-get update
+    - apt-get install -y git docker-compose
+    - git pull origin main
+    - docker-compose pull
+    - docker-compose down
+    - docker-compose up --build
