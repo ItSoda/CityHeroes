@@ -22,7 +22,7 @@ services:
   api:
     build: 
       context: ../../.
-    image: $CI_REGISTRY_IMAGE
+    image: cityheroes-api:test
     command:
       - sh
       - -c
