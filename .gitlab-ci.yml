@@ -13,8 +13,6 @@ test-job:
 
 delivery-job:
   stage: delivery
-  only:
-    - main
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
@@ -23,8 +21,6 @@ delivery-job:
 deploy-job:
   stage: deploy
   when: manual
-  only:
-    - main
   script:
     - ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts root@45.8.251.246
     - git pull origin main
