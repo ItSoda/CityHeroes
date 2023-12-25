@@ -6,8 +6,6 @@ stages:
 test-job:
   stage: test
   script:
-    - apk update 
-    - apk add docker-compose
     - ls
     - docker-compose -f docker/test/docker-compose.yml down
     - docker-compose -f docker/test/docker-compose.yml build api
