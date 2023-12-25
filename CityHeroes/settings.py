@@ -5,11 +5,14 @@ from pathlib import Path
 from decouple import Config, RepositoryEnv
 
 docker = os.environ.get("DOCKER_CONTAINER")
-
+test = os.environ.get("REDIS_TEST")
 env_file = ".env"
 
 if docker:
     env_file = "docker-compose.env"
+
+if test:
+    env_file = "test.env"
 
 config = Config(RepositoryEnv(env_file))
 
@@ -162,10 +165,11 @@ AUTH_USER_MODEL = "users.Users"
 
 # Redis
 REDIS_HOST = config.get("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = 6379
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:6379/0",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -195,7 +199,7 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
         "user_create": "users.serializers.UserRegistSerializer",
-        "current_user": "users.serializers.UserProfileSerializer",
+        "current_user": "users.serializers.UserProfile",
     },
 }
 
@@ -244,7 +248,7 @@ DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL")
 
 
 # CSRF
-CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://boar-still-alpaca.ngrok-free.app", "http://red-store.site", "https://red-store.site"]
 
 
 # yookassa
@@ -293,6 +297,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+REDIS_HOST = config.get("REDIS_HOST", "localhost")
+
 # CELERY
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379/0"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379/0"
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"

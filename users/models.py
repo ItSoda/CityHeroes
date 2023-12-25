@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from animals.services import send_form_email
 
 from users.services import is_expired, send_verification_email
 
@@ -36,16 +37,19 @@ class Users(AbstractUser):
 class EmailVerifications(models.Model):
     """Model for one EmailVerifications"""
 
-    code = models.UUIDField(unique=True)
+    code = models.UUIDField(unique=True, null=True, blank=True)
     user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    expiration = models.DateTimeField()
+    expiration = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"EmailVerification object for {self.user.email}"
 
     def send_verification_email(self):
         send_verification_email(self.user.email, self.code)
+
+    def send_form_email(self):
+        send_form_email(self.user.email)
 
     def is_expired(self):
         is_expired(self)

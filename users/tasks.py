@@ -8,8 +8,9 @@ from users.models import EmailVerifications, Users
 
 
 @shared_task
-def send_email_verify(user_id):
+def send_email_verify_task(user_id):
     user = Users.objects.get(id=user_id)
+    print("goood")
     expiration = now() + timedelta(hours=24)
     record = EmailVerifications.objects.create(
         code=uuid.uuid4(), user=user, expiration=expiration

@@ -23,6 +23,7 @@ class Message(models.Model):
     sender = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="messages")
     image = models.ImageField(upload_to='message_images', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    new_field = models.CharField(max_length=120, null=True, blank=True)
 
     def __str__(self):
         return f"Message({self.sender} {self.room})"

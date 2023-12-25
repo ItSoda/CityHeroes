@@ -1,0 +1,36 @@
+stages:
+  - test
+  - delivery
+  - deploy
+
+test-job:
+  stage: test
+  script:
+    - docker-compose -f docker/test/docker-compose.yml down
+    - docker-compose -f docker/test/docker-compose.yml build api
+    - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
+
+delivery-job:
+  stage: delivery
+  only:
+    - main
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker tag cityheroes-api:test $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
+
+deploy-job:
+  stage: deploy
+  only:
+    - main
+  when: manual
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts"
+    - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
+    - apk update 
+    - apk add git docker-compose docker
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && git pull https://oauth2:$TOKEN@gitlab.com/devhell1/cityheroescicd.git main'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && docker-compose down && docker-compose up --build'

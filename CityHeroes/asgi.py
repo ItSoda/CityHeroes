@@ -15,7 +15,7 @@ from django.core.asgi import get_asgi_application
 
 from chat.middleware import JwtAuthMiddlewareStack
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CityHeroes.settings")
 django.setup()
 
 from chat import routing
