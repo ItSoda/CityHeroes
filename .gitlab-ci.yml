@@ -21,6 +21,7 @@
 
 deploy-job:
   stage: deploy
+  image: ubuntu:latest
   # only:
   #   - main
   # when: manual
