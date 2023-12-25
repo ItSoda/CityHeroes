@@ -21,7 +21,6 @@
 
 deploy-job:
   stage: deploy
-  image: ubuntu:latest
   # only:
   #   - main
   # when: manual
@@ -31,6 +30,7 @@ deploy-job:
     - chmod 600 ~/.ssh/id_rsa
     - export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts"
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
-    - apt-get update && apt-get install git && apt-get install docker-compose && apt-get install docker.io
+    - apt-get update 
+    - apt-get install -y git && apt-get install -y docker-compose && apt-get install -y docker.io
     - ls && git pull origin main
     - docker-compose pull && docker-compose down && docker-compose up --build
