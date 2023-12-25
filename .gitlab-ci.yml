@@ -6,9 +6,9 @@ stages:
 test-job:
   stage: test
   script:
-    - /usr/bin/docker-compose -f docker/test/docker-compose.yml down
-    - /usr/bin/docker-compose -f docker/test/docker-compose.yml build api
-    - /usr/bin/docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
+    - docker-compose -f docker/test/docker-compose.yml down
+    - docker-compose -f docker/test/docker-compose.yml build api
+    - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
 
 delivery-job:
   stage: delivery
