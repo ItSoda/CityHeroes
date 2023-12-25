@@ -30,5 +30,5 @@ deploy-job:
     - chmod 600 ~/.ssh/id_rsa
     - export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts"
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
-    - git pull origin main
+    - ls && /usr/bin/git pull origin main
     - docker-compose pull && docker-compose down && docker-compose up --build
