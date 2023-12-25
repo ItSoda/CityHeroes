@@ -12,9 +12,9 @@ test-job:
     - export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts"
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'apt-get update && apt-get install docker-compose'
-    - docker-compose -f docker/test/docker-compose.yml down
-    - docker-compose -f docker/test/docker-compose.yml build api
-    - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'docker-compose -f docker/test/docker-compose.yml down'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'docker-compose -f docker/test/docker-compose.yml build api'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit'
 
 delivery-job:
   stage: delivery
