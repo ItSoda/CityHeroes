@@ -6,6 +6,8 @@ stages:
 test-job:
   stage: test
   script:
+    - apt-get update
+    - apt-get install -y docker-compose
     - docker-compose -f docker/test/docker-compose.yml down
     - docker-compose -f docker/test/docker-compose.yml build api
     - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
