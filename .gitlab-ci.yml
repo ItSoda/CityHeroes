@@ -32,5 +32,5 @@ deploy-job:
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - apk update 
     - apk add git docker-compose docker
-    - git config pull.rebase --continue && git pull origin try-do-ci/cd
+    - git rebase --abort && git pull origin try-do-ci/cd
     - docker-compose down && docker-compose up --build
