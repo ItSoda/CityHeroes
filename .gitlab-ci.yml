@@ -23,7 +23,10 @@ deploy-job:
   stage: deploy
   when: manual
   script:
-    - ssh "root@45.8.251.246" 'git pull origin main'
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
+    - ssh user@45.8.251.246 'git pull origin main'
     - docker-compose pull
     - docker-compose down
     - docker-compose up --build
