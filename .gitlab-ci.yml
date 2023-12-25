@@ -31,4 +31,4 @@ deploy-job:
     - export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=~/.ssh/known_hosts"
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && git pull https://oauth2:glpat-zWWJ3j4iE9ViL7YXoZQ1@gitlab.com/devhell1/cityheroes.git main'
-    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && docker-compose down && docker-compose up --build'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && docker-compose down && docker-compose up -d --build'
