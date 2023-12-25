@@ -23,7 +23,7 @@ deploy-job:
   stage: deploy
   when: manual
   script:
-    - ssh root@45.8.251.246 "git pull origin main"
+    - ssh 'root@45.8.251.246' 'git pull origin main'
     - docker-compose pull
     - docker-compose down
     - docker-compose up --build
