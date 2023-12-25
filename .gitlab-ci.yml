@@ -21,7 +21,7 @@
 
 deploy-job:
   stage: deploy
-  when: manual
+  # when: manual
   script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
