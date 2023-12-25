@@ -32,5 +32,5 @@ deploy-job:
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - apk update 
     - apk add git docker-compose docker
-    - ls && git rebase --abort && git config --global user.email "nikitashchegilskiy@gmail.com" && git config --global user.name "ItSoda" && git pull origin main 
+    - git status && git config --global user.email "nikitashchegilskiy@gmail.com" && git config --global user.name "ItSoda" && git pull origin main 
     - docker-compose pull && docker-compose down && docker-compose up --build
