@@ -8,6 +8,7 @@ test-job:
   script:
     - apk update 
     - apk add docker-compose
+    - ls
     - docker-compose -f docker/test/docker-compose.yml down
     - docker-compose -f docker/test/docker-compose.yml build api
     - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
