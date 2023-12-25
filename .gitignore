@@ -121,9 +121,6 @@ celerybeat.pid
 
 # Environments
 .venv
-.env
-docker-compsoe.env
-test.env
 env/
 venv/
 ENV/
