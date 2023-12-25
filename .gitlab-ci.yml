@@ -32,7 +32,5 @@ deploy-job:
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - apk update 
     - apk add git docker-compose docker
-    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'git pull origin try-do-ci/cd'
-    - export DOCKER_HOST=tcp://45.8.251.246:2375
-    - docker-compose down
-    - docker-compose up --build
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && git pull origin try-do-ci/cd'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'docker-compose down && docker-compose up --build'
