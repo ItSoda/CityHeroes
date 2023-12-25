@@ -32,5 +32,5 @@ deploy-job:
     - ssh-keyscan 45.8.251.246 >> ~/.ssh/known_hosts
     - apk update 
     - apk add git docker-compose docker
-    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && git pull origin main'
+    - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && git pull https://oauth2:$TOKEN@gitlab.com/devhell1/cityheroescicd.git main'
     - ssh -i ~/.ssh/id_rsa root@45.8.251.246 'cd cityheroes && docker-compose down && docker-compose up --build'
