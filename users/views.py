@@ -8,7 +8,7 @@ from yookassa.domain.notification import WebhookNotificationFactory
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
 
-from .serializers import UserSerializer
+from .serializers import UserRegistSerializer, UserSerializer
 from users.services import (
     EmailVerificationHandler,
     create_auto_payment,
@@ -21,7 +21,7 @@ from .models import Users
 
 class UserViewSet(ModelViewSet):
     queryset = Users.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserRegistSerializer
 
 
 class UserSearchView(ListAPIView):
