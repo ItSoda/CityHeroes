@@ -29,7 +29,7 @@ services:
         poetry run python manage.py collectstatic --noinput &&
         poetry run python manage.py migrate &&
         poetry run gunicorn CityHeroes.wsgi:application -b :8000 &&
-        poetry run celery -A CityHeroes worker -l info -S solo
+        poetry run celery -A CityHeroes worker -l info -P solo
     env_file:
       - docker-compose.env
     environment:
