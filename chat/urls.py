@@ -1,9 +1,12 @@
-from django.urls import include, path
+from django.urls import path
+
 from . import views
 
 app_name = "chat"
 
 
 urlpatterns = [
-    path("<int:user_pk>/", views.personal_chat, name="ph"),
+    path("create-room/<str:uuid>/", views.CreateRoom.as_view(), name="create-room"),
+    path("chat-admin/", views.ChatAdmin.as_view(), name="chat-admin"),
+    path("chat-admin/<str:uuid>/", views.Room.as_view(), name="room"),
 ]

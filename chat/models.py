@@ -2,38 +2,44 @@ from django.db import models
 from users.models import Users
 
 
+class Message(models.Model):
+    """Model for message"""
+
+    text = models.TextField()
+    sent_by = models.CharField(max_length=255)
+    created_by = models.ForeignKey(Users, blank=True, null=True,  on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at",)
+
+    def __str__(self):
+        return f"{self.sent_by}"
+
+
 class Room(models.Model):
     """Model for room"""
+    
+    WAITING = "waiting"
+    ACTIVE = "active"
+    CLOSED = "closed"
 
-    name = models.CharField(max_length=255, null=False, blank=False, unique=True)
-    host = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="rooms")
-    current_users = models.ManyToManyField(
-        Users, related_name="current_rooms", blank=True
+    CHOICES_STATUS = (
+        (WAITING, "Waiting"),
+        (ACTIVE, "Active"),
+        (CLOSED, "Closed"),
     )
 
-    def __str__(self):
-        return f"Room({self.name} {self.host} {self.id})"
-
-
-class Message(models.Model):
-    """Model for big chat"""
-
-    room = models.ForeignKey("Room", on_delete=models.CASCADE, related_name="messages")
-    text = models.TextField(max_length=500)
-    sender = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="messages")
-    image = models.ImageField(upload_to='message_images', null=True, blank=True)
+    uuid = models.CharField(max_length=255)
+    client = models.CharField(max_length=255)
+    agent = models.ForeignKey(Users, related_name="rooms", blank=True, null=True, on_delete=models.SET_NULL)
+    messages = models.ManyToManyField(Message, blank=True)
+    url = models.CharField(max_length=255, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=CHOICES_STATUS, default=WAITING)
     created_at = models.DateTimeField(auto_now_add=True)
-    new_field = models.CharField(max_length=120, null=True, blank=True)
+
+    class Meta:
+        ordering = ("-created_at",)
 
     def __str__(self):
-        return f"Message({self.sender} {self.room})"
-
-
-class PersonalMessage(models.Model):
-    """Model for personal messages"""
-
-    sender = models.ForeignKey(to=Users, on_delete=models.CASCADE, related_name="sent_messages")
-    receiver = models.ForeignKey(to=Users, on_delete=models.CASCADE, related_name="received_messages")
-    text = models.TextField()
-    image = models.ImageField(upload_to='message_images', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+        return f"{self.client} - {self.uuid}"

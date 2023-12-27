@@ -87,9 +87,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "CityHeroes.wsgi.application"
-
-# Channels
 ASGI_APPLICATION = "CityHeroes.asgi.application"
+# channel
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",

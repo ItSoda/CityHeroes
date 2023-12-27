@@ -11,6 +11,14 @@ from .managers import CustomUserManager
 class Users(AbstractUser):
     """Model for Users"""
 
+    AGENT = "agent"
+    MANAGER = "manager"
+
+    ROLES_CHOICES = (
+        (AGENT, "Agent"),
+        (MANAGER, "Manager"),
+    )
+
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50, null=True)
@@ -20,6 +28,7 @@ class Users(AbstractUser):
     description = models.TextField(null=True, blank=True)
     photo = models.ImageField(upload_to="user_images", null=True, blank=True)
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
+    role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
