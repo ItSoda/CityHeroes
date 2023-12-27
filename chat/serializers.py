@@ -1,12 +1,15 @@
-from users.models import Users
-from .models import Room, Message
 from rest_framework import serializers
-from users.serializers import UserSerializer
-from users.serializers import ImageFieldFromURL
+
+from users.models import Users
+from users.serializers import ImageFieldFromURL, UserSerializer
+
+from .models import Message, Room
+
 
 class MessageSerializer(serializers.ModelSerializer):
     created_at_formatted = serializers.SerializerMethodField()
     created_by = UserSerializer()
+
     class Meta:
         model = Message
         exclude = []
@@ -24,8 +27,10 @@ class RoomCreateSerializer(serializers.ModelSerializer):
         model = Room
         fields = "__all__"
         depth = 1
-        read_only_fields = ["messages",]
-    
+        read_only_fields = [
+            "messages",
+        ]
+
     def create(self, validated_data):
         messages_ids = validated_data.pop("messages")
         agent_id = validated_data.pop("agent")
@@ -45,5 +50,6 @@ class RoomSerializer(serializers.ModelSerializer):
         model = Room
         fields = "__all__"
         depth = 1
-        read_only_fields = ["messages",]
-
+        read_only_fields = [
+            "messages",
+        ]

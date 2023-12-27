@@ -7,13 +7,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CityHeroes.settings")
 django.setup()
 
 import jwt
-from django.conf import settings
-from django.contrib.auth.models import AnonymousUser
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware
+from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
+from django.db import close_old_connections
 
 from users.models import Users
-from django.db import close_old_connections
 
 ALGORITHM = "HS256"
 

@@ -12,7 +12,9 @@ class UsersAPITestCase(APITestCase):
         """data for test db"""
 
         self.superuser = Users.objects.create_superuser(
-            username="joker", email="nikitatqqqqqop@gmail.com", password="ngsdrgstosrgp23"
+            username="joker",
+            email="nikitatqqqqqop@gmail.com",
+            password="ngsdrgstosrgp23",
         )
         self.user_2 = Users.objects.create_superuser(
             username="koker", email="nikitatopchik@gmail.com", password="kkktop23"
@@ -24,7 +26,11 @@ class UsersAPITestCase(APITestCase):
         """This test covers user registration and verification for sending email"""
 
         url = reverse("users:users-list")
-        data = {"username": "qqnikitaaaaa", "email": "nikitashchegilskiyyy@gmail.com", "password": "nikitaWeb123"}
+        data = {
+            "username": "qqnikitaaaaa",
+            "email": "nikitashchegilskiyyy@gmail.com",
+            "password": "nikitaWeb123",
+        }
         response = self.client.post(url, data)
         expected_data = 3
 

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from users.models import Users
-from users.serializers import UserSerializer, ImageFieldFromURL
+from users.serializers import ImageFieldFromURL, UserSerializer
+
 from .models import Animals, FormAnimals, Images
 
 
@@ -38,6 +39,7 @@ class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Animals
         fields = "__all__"
+
 
 class AnimalShortSerializer(serializers.Serializer):
     user = UserSerializer()

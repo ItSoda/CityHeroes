@@ -1,10 +1,11 @@
-from djoser.serializers import UserCreateSerializer, UserSerializer
-from .models import Users
-from rest_framework import serializers
 from tempfile import NamedTemporaryFile
 from urllib.request import urlopen
 
 from django.core.files import File
+from djoser.serializers import UserCreateSerializer, UserSerializer
+from rest_framework import serializers
+
+from .models import Users
 
 
 class ImageFieldFromURL(serializers.ImageField):
@@ -21,7 +22,7 @@ class ImageFieldFromURL(serializers.ImageField):
             # Возвращаем его как значение поля
             return img
         return super().to_internal_value(data)
-    
+
 
 class UserRegistSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):

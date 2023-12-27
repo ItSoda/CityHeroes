@@ -56,9 +56,11 @@ class EmailVerificationHandler:
             return False
         except Exception as e:
             return False
-        
+
+
 def users_search(query):
     from .models import Users
+
     users = Users.objects.filter(username=query)
     return users
 

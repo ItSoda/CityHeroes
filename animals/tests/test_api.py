@@ -47,7 +47,7 @@ class AnimalsAPITestCase(APITestCase):
         }
         response = self.client.post(url, data)
         expected_data = 2
-        
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Animals.objects.count(), expected_data)
         self.assertEqual(response.data["name"], "Chi")

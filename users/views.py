@@ -1,22 +1,19 @@
 import json
 
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from yookassa.domain.notification import WebhookNotificationFactory
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView
+from yookassa.domain.notification import WebhookNotificationFactory
 
-from .serializers import UserRegistSerializer, UserSerializer
-from users.services import (
-    EmailVerificationHandler,
-    create_auto_payment,
-    create_payment,
-    user_save_yookassa_payment_id,
-    users_search,
-)
+from users.services import (EmailVerificationHandler, create_auto_payment,
+                            create_payment, user_save_yookassa_payment_id,
+                            users_search)
+
 from .models import Users
+from .serializers import UserRegistSerializer, UserSerializer
 
 
 class UserViewSet(ModelViewSet):

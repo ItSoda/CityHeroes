@@ -1,11 +1,13 @@
 import json
 
-from asgiref.sync import sync_to_async, async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.utils.timesince import timesince
-from .models import Message, Room
+
 from users.models import Users
+
+from .models import Message, Room
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -22,10 +24,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Inform user
         if self.user.is_staff:
             await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "users_update"
-                }
+                self.room_group_name, {"type": "users_update"}
             )
 
     async def disconnect(self, close_code):
@@ -35,7 +34,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not self.user.is_staff:
             await self.set_room_closed()
 
-    async def receive (self, text_data):
+    async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         type = text_data_json["type"]
         message = text_data_json["message"]
@@ -46,48 +45,56 @@ class ChatConsumer(AsyncWebsocketConsumer):
             new_message = await self.create_message(username, message, agent)
 
             await self.channel_layer.group_send(
-                self.room_group_name, {
+                self.room_group_name,
+                {
                     "type": "chat_message",
                     "message": message,
                     "username": username,
                     "agent": agent,
                     "created_at": timesince(new_message.created_at),
-                }
+                },
             )
         elif type == "update":
             await self.channel_layer.group_send(
-                self.channel_group_name, {
+                self.channel_group_name,
+                {
                     "type": "writing_active",
                     "message": message,
                     "username": username,
                     "agent": agent,
                     "created_at": timesince(new_message.created_at),
-                }
+                },
             )
 
     async def chat_message(self, event):
-        await self.send(text_data=json.dumps({
-            "type": event["type"],
-            "message": event["message"],
-            "username": event["username"],
-            "agent": event["agent"],
-            "created_at": event["created_at"],
-        }))
-    
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": event["type"],
+                    "message": event["message"],
+                    "username": event["username"],
+                    "agent": event["agent"],
+                    "created_at": event["created_at"],
+                }
+            )
+        )
+
     async def users_update(self, event):
-        await self.send(text_data=json.dumps({
-            "type": "users-update"
-        }))
+        await self.send(text_data=json.dumps({"type": "users-update"}))
 
     async def writing_active(self, event):
         # send writing is active to room
-        await self.send(text_data=json.dumps({
-            "type": event["type"],
-            "message": event["message"],
-            "username": event["username"],
-            "agent": event["agent"],
-            "created_at": event["created_at"],
-        }))
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": event["type"],
+                    "message": event["message"],
+                    "username": event["username"],
+                    "agent": event["agent"],
+                    "created_at": event["created_at"],
+                }
+            )
+        )
 
     @sync_to_async
     def get_room(self):
@@ -106,7 +113,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if agent:
             message.created_by = Users.objects.get(pk=agent)
             message.save()
-        
+
         self.room.messages.add(message)
-        
+
         return message

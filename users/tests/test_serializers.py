@@ -16,7 +16,10 @@ class SerializersUsersAPITest(APITestCase):
         )
 
         self.user_company_1 = Users.objects.create_user(
-            username="koker13", email="nikitaalaf@gmail.com", password="nik140406", is_company=True
+            username="koker13",
+            email="nikitaalaf@gmail.com",
+            password="nik140406",
+            is_company=True,
         )
 
     def test_user_serializer(self):
@@ -27,12 +30,12 @@ class SerializersUsersAPITest(APITestCase):
             {
                 "id": self.user_1.id,
                 "username": self.user_1.username,
-                "photo": self.user_1.photo
+                "photo": self.user_1.photo,
             },
             {
                 "id": self.user_2.id,
                 "username": self.user_2.username,
-                "photo": self.user_2.photo
+                "photo": self.user_2.photo,
             },
         ]
         print(expected_data)

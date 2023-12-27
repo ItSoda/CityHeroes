@@ -6,12 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Animals
 from .permissions import IsCompanyUser
-from .serializers import (
-    AnimalCreateSerializer,
-    AnimalSerializer,
-    AnimalShortSerializer,
-    FormAnimalCreateSerializer,
-)
+from .serializers import (AnimalCreateSerializer, AnimalSerializer,
+                          AnimalShortSerializer, FormAnimalCreateSerializer)
 from .services import animal_search
 
 

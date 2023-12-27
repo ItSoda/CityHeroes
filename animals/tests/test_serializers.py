@@ -3,7 +3,8 @@ from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from animals.models import Animals, FormAnimals, Images
-from animals.serializers import AnimalSerializer, FormAnimalSerializer, ImageSerializer
+from animals.serializers import (AnimalSerializer, FormAnimalSerializer,
+                                 ImageSerializer)
 from users.models import Users
 from users.serializers import UserSerializer
 

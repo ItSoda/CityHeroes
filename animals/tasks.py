@@ -8,5 +8,5 @@ def send_form_email(user_id):
     user = Users.objects.get(id=user_id)
     print("doo")
     record = EmailVerifications.objects.create(user=user)
-    
+
     record.send_form_email()

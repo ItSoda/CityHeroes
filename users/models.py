@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from animals.services import send_form_email
 
+from animals.services import send_form_email
 from users.services import is_expired, send_verification_email
 
 from .managers import CustomUserManager
