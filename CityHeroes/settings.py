@@ -296,8 +296,6 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-REDIS_HOST = config.get("REDIS_HOST", "localhost")
-
 # CELERY
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
 CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
