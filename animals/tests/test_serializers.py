@@ -19,7 +19,7 @@ class AnimalSerializersAPITestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
 
         self.image = Images.objects.create(
-            name="chi",
+            title="chi",
             image="https://img.freepik.com/free-photo/young-adult-enjoying-yoga-in-nature_23-2149573175.jpg",
         )
         data = {
@@ -56,7 +56,7 @@ class FormAnimalSerializerAPITestCase(APITestCase):
         """data for test db"""
 
         self.image = Images.objects.create(
-            name="niggs",
+            title="niggs",
             image="https://img.freepik.com/free-photo/young-adult-enjoying-yoga-in-nature_23-2149573175.jpg",
         )
         self.user = Users.objects.create_user(
