@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-from elasticsearch_dsl import connections
+# from elasticsearch_dsl import connections
 from decouple import Config, RepositoryEnv
 
 docker = os.environ.get("DOCKER_CONTAINER")

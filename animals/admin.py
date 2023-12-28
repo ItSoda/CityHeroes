@@ -5,8 +5,8 @@ from .models import Animals, FormAnimals, Images
 
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):
-    list_display = ("name", "image")
-    ordering = ("name",)
+    list_display = ("title", "image")
+    ordering = ("title",)
 
 
 @admin.register(Animals)

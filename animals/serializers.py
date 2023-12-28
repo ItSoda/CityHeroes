@@ -41,7 +41,7 @@ class AnimalSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AnimalShortSerializer(serializers.Serializer):
+class AnimalShortSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     images = ImageSerializer(many=True)
 

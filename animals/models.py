@@ -6,7 +6,7 @@ from django_elasticsearch_dsl import Document, Index
 class Images(models.Model):
     """Model for one images"""
 
-    name = models.CharField("Название", max_length=100)
+    title = models.CharField("Название", max_length=100)
     image = models.ImageField(upload_to="all_images")
 
     class Meta:
@@ -14,7 +14,7 @@ class Images(models.Model):
         verbose_name_plural = "Фотографии"
 
     def __str__(self):
-        return f"Name: {self.name}"
+        return f"Name: {self.title}"
 
 
 class Animals(models.Model):
