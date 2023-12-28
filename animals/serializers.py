@@ -47,7 +47,7 @@ class AnimalShortSerializer(serializers.Serializer):
 
     class Meta:
         model = Animals
-        fields = ("name", "images", "user")
+        fields = ("id", "name", "images", "user")
 
 
 class FormAnimalCreateSerializer(serializers.ModelSerializer):

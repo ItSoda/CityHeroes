@@ -1,0 +1,82 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-cityheroes-dev
+    restart: always
+    environment:
+      - MYSQL_DATABASE=CityHeroes
+      - MYSQL_ROOT_PASSWORD=pass_prod
+    volumes:
+      - mysql_data:/var/lib/mysql/
+
+  redis: 
+    image: redis:latest
+    container_name: redis-cityheroes-dev
+    restart: always
+    ports:
+      - "6379:6379"
+
+  api:
+    build: .
+    image: cityheroes-api-dev
+    command:
+      - sh
+      - -c
+      - |
+        dockerize -wait tcp://mysql:3306 -timeout 300s &&
+        poetry run python manage.py collectstatic --noinput &&
+        poetry run python manage.py migrate &&
+        poetry run gunicorn CityHeroes.wsgi:application -b :8000 &&
+        poetry run celery -A CityHeroes worker -l info -P solo
+    env_file:
+      - docker-compose.env
+    environment:
+      - DOCKER_CONTAINER=True
+    ports:
+      - "8000:8000" 
+    depends_on:
+      - mysql
+      - redis 
+    volumes:
+      - .:/itsoda
+      - static_volume:/itsoda/static
+      - media_volume:/itsoda/media
+    container_name: django-api-dev
+  nginx:
+    build: 
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: nginx-cityheroes-dev
+    image: nginx-cityheroes-dev
+    volumes:
+      - static_volume:/itsoda/static
+      - media_volume:/itsoda/media
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch-dev
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: kibana-dev
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-dev:9200/
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+
+volumes:
+  mysql_data: null
+  static_volume:
+  media_volume:

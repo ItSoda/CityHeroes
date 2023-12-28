@@ -1,15 +1,18 @@
 from django.conf import settings
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
-from django.utils.timezone import now
+from django_elasticsearch_dsl.search import Search
 
 
-def animal_search(query):
-    from animals.models import Animals
+# def animal_search(query):
+#         s = Search(index='animals_index')
+#         s = s.query("multi_match", query=query, fields=["name", "content", "species"])
 
-    animals = Animals.objects.filter(name__icontains=query)
-    return animals
+#         response = s.execute()
+
+#         # Обработка результатов
+#         animals = [{'name': hit.name, 'content': hit.content, "species": hit.species} for hit in response.hits]
+
+#         return animals
 
 
 # EMAIL

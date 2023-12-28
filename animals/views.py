@@ -1,14 +1,18 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Animals
-from .permissions import IsCompanyUser
 from .serializers import (AnimalCreateSerializer, AnimalSerializer,
-                          AnimalShortSerializer, FormAnimalCreateSerializer)
-from .services import animal_search
+                        AnimalShortSerializer, FormAnimalCreateSerializer)
+# from .services import animal_search
+from rest_framework.decorators import action
+from rest_framework import viewsets
+
 
 
 class AnimalModelViewSet(ModelViewSet):
@@ -26,16 +30,16 @@ class AnimalModelViewSet(ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-class AnimalSearchView(ListAPIView):
+class AnimalSearchView(viewsets.ModelViewSet):
+    queryset = Animals.objects.all()
     serializer_class = AnimalSerializer
 
-    def get_queryset(self):
-        query = self.request.query_params.get(
-            "query", ""
-        )  # Получите параметр запроса "query"
-        # Используйте фильтр для поиска товаров по имени (или другим полям) по запросу
-        queryset = animal_search(query)
-        return queryset
+    # @action(detail=False, methods=['get'])
+    # def search(self, request):
+    #     query = self.request.GET.get('query', '')
+    #     results = animal_search(query)
+
+    #     return Response({'results': results}, status=status.HTTP_200_OK)
 
 
 class FormAnimalsCreateAPIView(CreateAPIView):

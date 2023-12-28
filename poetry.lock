@@ -733,6 +733,24 @@ django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
+name = "django-elasticsearch-dsl"
+version = "8.0"
+description = "Wrapper around elasticsearch-dsl-py for django models"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-elasticsearch-dsl-8.0.tar.gz", hash = "sha256:64ee0612ced6d57515a6b7f29f1a3e1c2eea1996a6226fc72079a95c067b27ca"},
+    {file = "django_elasticsearch_dsl-8.0-py2.py3-none-any.whl", hash = "sha256:423784a4af336d109c3763622f1edc4973664cb5154beb55b3ff9390c1e4525e"},
+]
+
+[package.dependencies]
+elasticsearch-dsl = ">=8.9.0,<9.0.0"
+six = "*"
+
+[package.extras]
+celery = ["celery (>=4.1.0)"]
+
+[[package]]
 name = "django-environ"
 version = "0.10.0"
 description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
@@ -907,6 +925,60 @@ uritemplate = ">=3.0.0"
 [package.extras]
 coreapi = ["coreapi (>=2.3.3)", "coreschema (>=0.0.4)"]
 validation = ["swagger-spec-validator (>=2.1.0)"]
+
+[[package]]
+name = "elastic-transport"
+version = "8.11.0"
+description = "Transport classes and utilities shared among Python Elastic client libraries"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "elastic-transport-8.11.0.tar.gz", hash = "sha256:1a6ab59b2a6f6feeef20d254babb1b27fbf0b2bc8d3cf485f5211b422290dd4c"},
+    {file = "elastic_transport-8.11.0-py3-none-any.whl", hash = "sha256:dfb5d8a0cb649c159ebf4d9b1f55b7c8d00bb65687c53060b54cc9b2a7c84344"},
+]
+
+[package.dependencies]
+certifi = "*"
+urllib3 = ">=1.26.2,<3"
+
+[package.extras]
+develop = ["aiohttp", "furo", "mock", "pytest", "pytest-asyncio", "pytest-cov", "pytest-httpserver", "pytest-mock", "requests", "sphinx (>2)", "sphinx-autodoc-typehints", "trustme"]
+
+[[package]]
+name = "elasticsearch"
+version = "8.11.1"
+description = "Python client for Elasticsearch"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "elasticsearch-8.11.1-py3-none-any.whl", hash = "sha256:a98309cee11fef8d6750f388683e9a8005da94bdfd940b36ef85cb6cc53186c7"},
+    {file = "elasticsearch-8.11.1.tar.gz", hash = "sha256:360b721324ce4bc7d554afb8acbf4942370e73c5ef8c4dad5f5ba3bb2a70eeae"},
+]
+
+[package.dependencies]
+elastic-transport = ">=8,<9"
+
+[package.extras]
+async = ["aiohttp (>=3,<4)"]
+requests = ["requests (>=2.4.0,<3.0.0)"]
+
+[[package]]
+name = "elasticsearch-dsl"
+version = "8.11.0"
+description = "Python client for Elasticsearch"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "elasticsearch-dsl-8.11.0.tar.gz", hash = "sha256:44af4fd7f62009bb19193b55e1c2143b6932517e4c0ec30107e7ff4d968a127e"},
+    {file = "elasticsearch_dsl-8.11.0-py3-none-any.whl", hash = "sha256:61000f8ff5e9633d3381aea5a6dfba5c9c4505fe2e6c5cba6a17cd7debc890d9"},
+]
+
+[package.dependencies]
+elasticsearch = ">=8.0.0,<9.0.0"
+python-dateutil = "*"
+
+[package.extras]
+develop = ["coverage", "pytest", "pytest-cov", "pytest-mock", "pytz", "sphinx (>2)", "sphinx-rtd-theme (>0.5)"]
 
 [[package]]
 name = "flake8"
@@ -2074,4 +2146,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "f3d6c1d00e498ad792dea09fba5f4a390a1c38882ebfbc5e396c8f2b2601dc96"
+content-hash = "eec41e9885b2ba5c82f040ad83b3747aa7348d4476cd5661b8c2df5c7604a740"

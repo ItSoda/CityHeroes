@@ -1,7 +1,7 @@
 from django.db import models
 
 from users.models import Users
-
+from django_elasticsearch_dsl import Document, Index
 
 class Images(models.Model):
     """Model for one images"""
@@ -50,3 +50,12 @@ class FormAnimals(models.Model):
         return (
             f"Phone: {self.phone} | Animal: {self.animal.name} | {self.animal.species}"
         )
+
+# animals_index = Index("animals_index")
+# animals_index.settings(number_of_shard=1, number_of_replicas=0)
+
+# @animals_index.doc_type
+# class AnimalDocument(Document):
+#     class Django:
+#         model = Animals
+#         fields = ["name", "species", "content"]
