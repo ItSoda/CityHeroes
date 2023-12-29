@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django_elasticsearch_dsl import Document, Index
 
 from animals.services import send_form_email
 from users.services import is_expired, send_verification_email
@@ -41,6 +42,16 @@ class Users(AbstractUser):
 
     def __str__(self):
         return f"Пользователь {self.email} | {self.first_name}"
+
+
+users_index = Index("users_index")
+users_index.settings(number_of_shard=1, number_of_replicas=0)
+
+@users_index.doc_type
+class UsersDocument(Document):
+    class Django:
+        model = Users
+        fields = ["username",]
 
 
 class EmailVerifications(models.Model):

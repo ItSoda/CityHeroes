@@ -1,7 +1,7 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-# from elasticsearch_dsl import connections
+from elasticsearch_dsl import connections
 from decouple import Config, RepositoryEnv
 
 docker = os.environ.get("DOCKER_CONTAINER")
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "djoser",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
-    # "django_elasticsearch_dsl",
+    "django_elasticsearch_dsl",
     "drf_yasg",
     "corsheaders",
     "channels",
@@ -111,14 +111,15 @@ DATABASES = {
     }
 }
 
-# # ElasticSearch 
-# ELASTICSEARCH_DSL = {
-#     "default": {
-#         "hosts": "http://elasticsearch-dev:9200",
-#     }
-# }
+# ElasticSearch 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://elasticsearch-dev:9200',
+    },
+}
 
-# connections.create_connection(hosts=["elasticsearch-dev"], scheme="http", port="9200")
+# Create Elasticsearch connection
+connections.create_connection(**ELASTICSEARCH_DSL['default'])
 
 
 AUTH_PASSWORD_VALIDATORS = [

@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.timezone import now
+from elasticsearch_dsl import Search
 
 
 # MODELS METHODS
@@ -59,10 +60,15 @@ class EmailVerificationHandler:
 
 
 def users_search(query):
-    from .models import Users
+        s = Search(index='users_index')
+        s = s.query("multi_match", query=query, fields=["username",])
 
-    users = Users.objects.filter(username=query)
-    return users
+        response = s.execute()
+
+        # Обработка результатов
+        users = [{'username': hit.username,} for hit in response.hits]
+
+        return users
 
 
 # YOOKASSA PAYMENT

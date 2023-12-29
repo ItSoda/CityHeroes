@@ -11,7 +11,7 @@ router.register("users", UserViewSet, basename="users")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("users/search/", UserSearchView.as_view(), name="search"),
+    path("user/search/", UserSearchView.as_view({"get": "list"}), name="user-search"),
     path(
         "verify/<str:email>/<uuid:code>/",
         EmailVerificationAndUserUpdateView.as_view(),

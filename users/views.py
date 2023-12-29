@@ -11,7 +11,7 @@ from yookassa.domain.notification import WebhookNotificationFactory
 from users.services import (EmailVerificationHandler, create_auto_payment,
                             create_payment, user_save_yookassa_payment_id,
                             users_search)
-
+from rest_framework.decorators import action
 from .models import Users
 from .serializers import UserRegistSerializer, UserSerializer
 
@@ -21,17 +21,16 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserRegistSerializer
 
 
-class UserSearchView(ListAPIView):
+class UserSearchView(ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
 
-    def get_queryset(self):
-        query = self.request.query_params.get(
-            "query", ""
-        )  # Получите параметр запроса "query"
-        # Используйте фильтр для поиска товаров по имени (или другим полям) по запросу
-        queryset = users_search(query)
-        return queryset
+    @action(detail=False, methods=['get'])
+    def search(self, request):
+        query = self.request.GET.get('query', '')
+        results = users_search(query)
+
+        return Response({'results': results}, status=status.HTTP_200_OK)
 
 
 class EmailVerificationAndUserUpdateView(APIView):

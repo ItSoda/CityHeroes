@@ -51,11 +51,11 @@ class FormAnimals(models.Model):
             f"Phone: {self.phone} | Animal: {self.animal.name} | {self.animal.species}"
         )
 
-# animals_index = Index("animals_index")
-# animals_index.settings(number_of_shard=1, number_of_replicas=0)
+animals_index = Index("animals_index")
+animals_index.settings(number_of_shard=1, number_of_replicas=0)
 
-# @animals_index.doc_type
-# class AnimalDocument(Document):
-#     class Django:
-#         model = Animals
-#         fields = ["name", "species", "content"]
+@animals_index.doc_type
+class AnimalDocument(Document):
+    class Django:
+        model = Animals
+        fields = ["name", "species", "content"]
