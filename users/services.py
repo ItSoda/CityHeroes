@@ -4,6 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.timezone import now
 from elasticsearch_dsl import Search
+import logging
+
+
+logger = logging.getLogger("main")
 
 
 # MODELS METHODS
@@ -59,16 +63,16 @@ class EmailVerificationHandler:
             return False
 
 
-def users_search(query):
-        s = Search(index='users_index')
-        s = s.query("multi_match", query=query, fields=["username",])
+# def users_search(query):
+#         s = Search(index='users_index')
+#         s = s.query("multi_match", query=query, fields=["username",])
 
-        response = s.execute()
+#         response = s.execute()
 
-        # Обработка результатов
-        users = [{'username': hit.username,} for hit in response.hits]
+#         # Обработка результатов
+#         users = [{'username': hit.username,} for hit in response.hits]
 
-        return users
+#         return users
 
 
 # YOOKASSA PAYMENT
@@ -79,6 +83,7 @@ def create_payment(user, request):
     # Настройте ключи доступа
     Configuration.account_id = settings.YOOKASSA_SHOP_ID
     Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
+    logger.info("keys are ready")
     # Создайте объект платежа
     payment = Payment.create(
         {
@@ -103,6 +108,7 @@ def user_save_yookassa_payment_id(user_id, notification):
     user = Users.objects.get(id=user_id)
 
     user.yookassa_payment_id = notification.object.payment_method.id
+    logger.info("yookassa_id change")
     user.save()
     return user
 

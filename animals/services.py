@@ -3,16 +3,16 @@ from django.core.mail import send_mail
 from django_elasticsearch_dsl.search import Search
 
 
-def animal_search(query):
-        s = Search(index='animals_index')
-        s = s.query("multi_match", query=query, fields=["name", "content", "species"])
+# def animal_search(query):
+#         s = Search(index='animals_index')
+#         s = s.query("multi_match", query=query, fields=["name", "content", "species"])
 
-        response = s.execute()
+#         response = s.execute()
 
-        # Обработка результатов
-        animals = [{'name': hit.name, 'content': hit.content, "species": hit.species} for hit in response.hits]
+#         # Обработка результатов
+#         animals = [{'name': hit.name, 'content': hit.content, "species": hit.species} for hit in response.hits]
 
-        return animals
+#         return animals
 
 
 # EMAIL

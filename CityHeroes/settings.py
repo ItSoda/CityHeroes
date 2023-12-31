@@ -4,6 +4,8 @@ from pathlib import Path
 from elasticsearch_dsl import connections
 from decouple import Config, RepositoryEnv
 
+
+
 docker = os.environ.get("DOCKER_CONTAINER")
 test = os.environ.get("REDIS_TEST")
 env_file = ".env"
@@ -47,7 +49,7 @@ INSTALLED_APPS = [
     "djoser",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
-    "django_elasticsearch_dsl",
+    # "django_elasticsearch_dsl",
     "drf_yasg",
     "corsheaders",
     "channels",
@@ -70,6 +72,31 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "CityHeroes.urls"
+
+# LOGGING
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "main_format": {
+            "format": "{asctime} - {levelname} - {module} - {filename} - {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "main_format",
+        },
+    },
+    "loggers": {
+        "main": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
 
 TEMPLATES = [
     {
@@ -111,15 +138,15 @@ DATABASES = {
     }
 }
 
-# ElasticSearch 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'http://elasticsearch-dev:9200',
-    },
-}
+# # ElasticSearch 
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': 'http://elasticsearch-dev:9200',
+#     },
+# }
 
-# Create Elasticsearch connection
-connections.create_connection(**ELASTICSEARCH_DSL['default'])
+# # Create Elasticsearch connection
+# connections.create_connection(**ELASTICSEARCH_DSL['default'])
 
 
 AUTH_PASSWORD_VALIDATORS = [

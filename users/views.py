@@ -9,28 +9,27 @@ from rest_framework.viewsets import ModelViewSet
 from yookassa.domain.notification import WebhookNotificationFactory
 
 from users.services import (EmailVerificationHandler, create_auto_payment,
-                            create_payment, user_save_yookassa_payment_id,
-                            users_search)
+                            create_payment, user_save_yookassa_payment_id,)
 from rest_framework.decorators import action
 from .models import Users
-from .serializers import UserRegistSerializer, UserSerializer
+from .serializers import UserSerializer
 
 
 class UserViewSet(ModelViewSet):
     queryset = Users.objects.all()
-    serializer_class = UserRegistSerializer
-
-
-class UserSearchView(ModelViewSet):
-    queryset = Users.objects.all()
     serializer_class = UserSerializer
 
-    @action(detail=False, methods=['get'])
-    def search(self, request):
-        query = self.request.GET.get('query', '')
-        results = users_search(query)
 
-        return Response({'results': results}, status=status.HTTP_200_OK)
+# class UserSearchView(ModelViewSet):
+#     queryset = Users.objects.all()
+#     serializer_class = UserSerializer
+
+#     @action(detail=False, methods=['get'])
+#     def search(self, request):
+#         query = self.request.GET.get('query', '')
+#         results = users_search(query)
+
+#         return Response({'results': results}, status=status.HTTP_200_OK)
 
 
 class EmailVerificationAndUserUpdateView(APIView):

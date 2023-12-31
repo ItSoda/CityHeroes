@@ -9,7 +9,7 @@ from rest_framework import status
 from .models import Animals
 from .serializers import (AnimalCreateSerializer, AnimalSerializer,
                         AnimalShortSerializer, FormAnimalCreateSerializer)
-from .services import animal_search
+# from .services import animal_search
 from rest_framework.decorators import action
 from rest_framework import viewsets
 
@@ -30,16 +30,16 @@ class AnimalModelViewSet(ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-class AnimalSearchView(viewsets.ModelViewSet):
-    queryset = Animals.objects.all()
-    serializer_class = AnimalSerializer
+# class AnimalSearchView(viewsets.ModelViewSet):
+#     queryset = Animals.objects.all()
+#     serializer_class = AnimalSerializer
 
-    @action(detail=False, methods=['get'])
-    def search(self, request):
-        query = self.request.GET.get('query', '')
-        results = animal_search(query)
+#     @action(detail=False, methods=['get'])
+#     def search(self, request):
+#         query = self.request.GET.get('query', '')
+#         results = animal_search(query)
 
-        return Response({'results': results}, status=status.HTTP_200_OK)
+#         return Response({'results': results}, status=status.HTTP_200_OK)
 
 
 class FormAnimalsCreateAPIView(CreateAPIView):

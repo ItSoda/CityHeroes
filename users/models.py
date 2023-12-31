@@ -22,12 +22,12 @@ class Users(AbstractUser):
 
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=50, unique=True)
-    first_name = models.CharField(max_length=50, null=True)
-    last_name = models.CharField(max_length=50, null=True)
+    first_name = models.CharField(max_length=50, default="first name")
+    last_name = models.CharField(max_length=50, default="last name")
     is_verified_email = models.BooleanField(default=False)
     is_company = models.BooleanField(default=False)
-    description = models.TextField(null=True, blank=True)
-    photo = models.ImageField(upload_to="user_images", null=True, blank=True)
+    description = models.TextField(default="about you")
+    photo = models.ImageField(upload_to="user_images", default="user_images/no-profile.png")
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
 
@@ -44,14 +44,14 @@ class Users(AbstractUser):
         return f"Пользователь {self.email} | {self.first_name}"
 
 
-users_index = Index("users_index")
-users_index.settings(number_of_shard=1, number_of_replicas=0)
+# users_index = Index("users_index")
+# users_index.settings(number_of_shard=1, number_of_replicas=0)
 
-@users_index.doc_type
-class UsersDocument(Document):
-    class Django:
-        model = Users
-        fields = ["username",]
+# @users_index.doc_type
+# class UsersDocument(Document):
+#     class Django:
+#         model = Users
+#         fields = ["username",]
 
 
 class EmailVerifications(models.Model):
