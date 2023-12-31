@@ -25,7 +25,7 @@ class UsersAPITestCase(APITestCase):
     def test_create_account(self):
         """This test covers user registration and verification for sending email"""
 
-        url = reverse("users:users-list")
+        url = "http://127.0.0.1:8000/auth/users/"
         data = {
             "username": "qqnikitaaaaa",
             "email": "nikitashchegilskiyyy@gmail.com",
@@ -43,7 +43,7 @@ class UsersAPITestCase(APITestCase):
     def test_create_company_account(self):
         """This test covers company account registration and verification for sending email"""
 
-        url = reverse("users:users-list")
+        url = "http://127.0.0.1:8000/auth/users/"
         data = {
             "email": "pogosweb@gmail.com",
             "password": "acdaPoasdcagosadcadProfi123",
