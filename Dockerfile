@@ -12,6 +12,8 @@ WORKDIR /itsoda
 
 RUN mkdir /itsoda/static && mkdir /itsoda/media && chown -R itsoda:itsoda /itsoda && chmod 777 /itsoda
 
+COPY media/user_images/no-profile.png /itsoda/media/user_images/no-profile.png
+
 COPY --chown=itsoda:itsoda . .
 
 COPY pyproject.toml poetry.lock /itsoda/
