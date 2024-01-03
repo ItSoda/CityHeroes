@@ -1,10 +1,9 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-from elasticsearch_dsl import connections
+
 from decouple import Config, RepositoryEnv
-
-
+from elasticsearch_dsl import connections
 
 docker = os.environ.get("DOCKER_CONTAINER")
 test = os.environ.get("REDIS_TEST")
@@ -138,7 +137,7 @@ DATABASES = {
     }
 }
 
-# # ElasticSearch 
+# # ElasticSearch
 # ELASTICSEARCH_DSL = {
 #     'default': {
 #         'hosts': 'http://elasticsearch-dev:9200',
@@ -223,7 +222,6 @@ REST_FRAMEWORK = {
     #     "django_elasticsearch_dsl.filters.ElasticsearchFilterBackend",
     # ],
 }
-
 
 
 # Djoser
@@ -338,10 +336,7 @@ ADMIN_ID = config.get("ADMIN_ID")
 
 # DEBUG TOOLBAR
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-    "localhost"
-]
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 # CELERY
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"

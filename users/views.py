@@ -1,6 +1,7 @@
 import json
 
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -9,8 +10,8 @@ from rest_framework.viewsets import ModelViewSet
 from yookassa.domain.notification import WebhookNotificationFactory
 
 from users.services import (EmailVerificationHandler, create_auto_payment,
-                            create_payment, user_save_yookassa_payment_id,)
-from rest_framework.decorators import action
+                            create_payment, user_save_yookassa_payment_id)
+
 from .models import Users
 from .serializers import UserSerializer
 

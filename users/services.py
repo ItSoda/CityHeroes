@@ -1,11 +1,11 @@
+import logging
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.timezone import now
 from elasticsearch_dsl import Search
-import logging
-
 
 logger = logging.getLogger("main")
 

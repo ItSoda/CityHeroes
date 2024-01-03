@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django_elasticsearch_dsl.search import Search
 
-
 # def animal_search(query):
 #         s = Search(index='animals_index')
 #         s = s.query("multi_match", query=query, fields=["name", "content", "species"])

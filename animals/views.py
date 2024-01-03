@@ -1,18 +1,16 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework import status, viewsets
+# from .services import animal_search
+from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Animals
 from .serializers import (AnimalCreateSerializer, AnimalSerializer,
-                        AnimalShortSerializer, FormAnimalCreateSerializer)
-# from .services import animal_search
-from rest_framework.decorators import action
-from rest_framework import viewsets
-
+                          AnimalShortSerializer, FormAnimalCreateSerializer)
 
 
 class AnimalModelViewSet(ModelViewSet):

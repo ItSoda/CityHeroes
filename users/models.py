@@ -27,7 +27,9 @@ class Users(AbstractUser):
     is_verified_email = models.BooleanField(default=False)
     is_company = models.BooleanField(default=False)
     description = models.TextField(default="about you")
-    photo = models.ImageField(upload_to="user_images", default="user_images/no-profile.png")
+    photo = models.ImageField(
+        upload_to="user_images", default="user_images/no-profile.png"
+    )
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
 
