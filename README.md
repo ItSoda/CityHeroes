@@ -34,9 +34,9 @@ This project was created by the talented OnlyDev team, bringing together experti
     docker-compose up -d --build
 3. **Create Superuser (Administrator):**
    ```bash
-    docker-compose exec fohow-api python manage.py createsuperuser
+    docker-compose exec cityheroes-api python manage.py createsuperuser
 ## Access the Application:
-Open your browser and go to http://127.0.0.1:8000/ or https://cityheroes.ru to explore the CityHeroes.
+Open your browser and go to http://127.0.0.1:8000/ or https://cityheroes.ru/ to explore the CityHeroes.
 
 ## License
 
