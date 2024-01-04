@@ -46,6 +46,10 @@ class UserProfile(UserSerializer):
             "is_company",
             "description",
             "photo",
+            "forms",
+            "quantity_forms",
+            "quantity_favourites",
+            "favourites",
         )
         read_only_fields = ("password",)
 

@@ -4,7 +4,10 @@ from users.models import Users
 from users.serializers import ImageFieldFromURL, UserSerializer
 
 from .models import Animals, FormAnimals, Images
+import logging
 
+
+logger = logging.getLogger("main")
 
 class ImageSerializer(serializers.ModelSerializer):
     image = ImageFieldFromURL()
@@ -61,15 +64,17 @@ class FormAnimalCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_id = validated_data.pop("user")
         animal_id = validated_data.pop("animal")
+        try:
+            user = Users.objects.get(id=user_id)
+            animal = Animals.objects.get(id=animal_id)
+            instance = FormAnimals.objects.create(
+                user=user, animal=animal, **validated_data
+            )
+            return instance
+        except (Users.DoesNotExist, Animals.DoesNotExist):
+            raise serializers.ValidationError("User or Animal does not exist.")
 
-        user = Users.objects.get(id=user_id)
-        animal = Animals.objects.get(id=animal_id)
-
-        instance = FormAnimals.objects.create(
-            user=user, animal=animal, **validated_data
-        )
-
-        return instance
+        
 
 
 class FormAnimalSerializer(serializers.ModelSerializer):

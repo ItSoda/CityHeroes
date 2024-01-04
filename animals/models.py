@@ -49,7 +49,7 @@ class FormAnimals(models.Model):
 
     def __str__(self):
         return (
-            f"Phone: {self.phone} | Animal: {self.animal.name} | {self.animal.species}"
+            f"Phone: {self.phone}"
         )
 
 

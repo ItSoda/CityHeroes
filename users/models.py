@@ -1,10 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django_elasticsearch_dsl import Document, Index
-
 from animals.services import send_form_email
 from users.services import is_expired, send_verification_email
-
 from .managers import CustomUserManager
 
 
@@ -32,6 +30,10 @@ class Users(AbstractUser):
     )
     yookassa_payment_id = models.CharField(max_length=100, null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
+    favourites = models.ManyToManyField("animals.Animals", null=True, blank=True)
+    forms = models.ManyToManyField("animals.FormAnimals", null=True, blank=True)
+    quantity_favourites = models.IntegerField(default=0)
+    quantity_forms = models.IntegerField(default=0)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
