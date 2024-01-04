@@ -7,7 +7,8 @@ EXPOSE 8000
 RUN apk update && apk upgrade && \
     apk add --no-cache bash curl && \
     apk add --no-cache libc-dev libffi-dev openssl-dev gcc && \
-    apk add --no-cache build-base mariadb-dev
+    apk add --no-cache build-base mariadb-dev && \
+    apk add --no-cache docker-compose
 
 RUN pip install --upgrade pip
 

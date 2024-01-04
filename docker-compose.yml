@@ -20,7 +20,7 @@ services:
 
   api:
     build: .
-    image: cityheroes-api
+    image: itsoda14/cityheroes:latest
     command:
       - sh
       - -c
