@@ -20,7 +20,7 @@ class AnimalModelViewSet(ModelViewSet):
 
     @method_decorator(cache_page(100))
     def list(self, request, *args, **kwargs):
-        self.get_serializer = AnimalShortSerializer
+        self.get_serializer = AnimalSerializer
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
