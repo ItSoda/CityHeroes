@@ -12,6 +12,9 @@ from users.models import Users
 from .models import Animals
 from .serializers import (AnimalCreateSerializer, AnimalSerializer,
                           AnimalShortSerializer, FormAnimalCreateSerializer, FormAnimalSerializer)
+import logging
+
+logger = logging.getLogger("main")
 
 
 class AnimalModelViewSet(ModelViewSet):
@@ -58,8 +61,11 @@ class FormAnimalViewSet(ModelViewSet):
 class AnimalFavouriteUserViewSet(APIView):
     def post(self, request, animal_id, *args, **kwargs):
         try:
+            logger.info("first")
             user = Users.objects.get(id=request.user.id)
+            logger.info('user find')
             animal = Animals.objects.get(id=animal_id)
+            logger.info('animal find')
 
             if animal in user.favourites.all():
                 user.favourites.remove(animal)
