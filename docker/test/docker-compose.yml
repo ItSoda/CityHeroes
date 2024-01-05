@@ -7,6 +7,9 @@ services:
     restart: always
     env_file:
       - $env
+    environment:
+      - MYSQL_DATABASE=CityHeroes
+      - MYSQL_ROOT_PASSWORD=pass_prod
 
   redis: 
     image: redis:latest
@@ -27,7 +30,7 @@ services:
       - sh
       - -c
       - |
-        dockerize -wait tcp://mysql-cityheroes-test:3306 -timeout 300s &&
+        dockerize -wait tcp://mysql:3306 -timeout 300s &&
         poetry run python manage.py migrate &&
         poetry run python manage.py test
         
