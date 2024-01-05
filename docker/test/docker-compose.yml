@@ -27,7 +27,7 @@ services:
       - sh
       - -c
       - |
-        dockerize -wait tcp://mysql:3306 -timeout 300s &&
+        dockerize -wait tcp://mysql-cityheroes-test:3306 -timeout 300s &&
         poetry run python manage.py migrate &&
         poetry run python manage.py test
         
