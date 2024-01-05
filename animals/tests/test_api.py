@@ -122,7 +122,7 @@ class FormAnimalAPITestCase(APITestCase):
 
     def test_create_form_animal(self):
         """This test covers create form animal"""
-        url = reverse("animals:forms-create")
+        url = reverse("animals:forms-list")
         data = {"phone": "+79136757877", "animal": self.animal.id, "user": self.user.id}
         response = self.client.post(url, data)
         expected_data = 1
