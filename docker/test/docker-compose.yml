@@ -8,6 +8,8 @@ services:
     environment:
       - MYSQL_DATABASE=CityHeroes
       - MYSQL_ROOT_PASSWORD=pass_prod
+    ports:
+      - "3306:3306"
 
   redis: 
     image: redis:latest
