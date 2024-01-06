@@ -4,7 +4,6 @@ from urllib.request import urlopen
 from django.core.files import File
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
-
 from .models import Users
 
 
@@ -28,32 +27,6 @@ class UserRegistSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = Users
         fields = ("id", "email", "password", "username")
-
-
-class UserProfile(UserSerializer):
-    photo = ImageFieldFromURL()
-    forms = "animals.serializers.FormAnimalSerializer"
-    favourites = "animals.serializers.AnimalSerializer"
-
-    class Meta(UserSerializer.Meta):
-        model = Users
-        fields = (
-            "id",
-            "email",
-            "password",
-            "username",
-            "first_name",
-            "last_name",
-            "is_verified_email",
-            "is_company",
-            "description",
-            "photo",
-            "forms",
-            "quantity_forms",
-            "quantity_favourites",
-            "favourites",
-        )
-        read_only_fields = ("password",)
 
 
 class UserSerializer(UserSerializer):

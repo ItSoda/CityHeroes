@@ -83,3 +83,28 @@ class FormAnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormAnimals
         fields = "__all__"
+
+
+class UserProfile(UserSerializer):
+    photo = ImageFieldFromURL()
+    forms = FormAnimalSerializer(many=True)
+    favourites = AnimalSerializer(many=True)
+    class Meta(UserSerializer.Meta):
+        model = Users
+        fields = (
+            "id",
+            "email",
+            "password",
+            "username",
+            "first_name",
+            "last_name",
+            "is_verified_email",
+            "is_company",
+            "description",
+            "photo",
+            "forms",
+            "quantity_forms",
+            "quantity_favourites",
+            "favourites",
+        )
+        read_only_fields = ("password",)
