@@ -1,8 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django_elasticsearch_dsl import Document, Index
+
 from animals.services import send_form_email
 from users.services import is_expired, send_verification_email
+
 from .managers import CustomUserManager
 
 

@@ -1,7 +1,9 @@
 from celery import shared_task
 
 from users.models import EmailVerifications, Users
+
 from .models import FormAnimals
+
 
 @shared_task
 def send_form_email(form_id):

@@ -1,13 +1,14 @@
+import logging
+
 from rest_framework import serializers
 
 from users.models import Users
 from users.serializers import ImageFieldFromURL, UserSerializer
 
 from .models import Animals, FormAnimals, Images
-import logging
-
 
 logger = logging.getLogger("main")
+
 
 class ImageSerializer(serializers.ModelSerializer):
     image = ImageFieldFromURL()
@@ -73,8 +74,6 @@ class FormAnimalCreateSerializer(serializers.ModelSerializer):
             return instance
         except (Users.DoesNotExist, Animals.DoesNotExist):
             raise serializers.ValidationError("User or Animal does not exist.")
-
-        
 
 
 class FormAnimalSerializer(serializers.ModelSerializer):

@@ -1,18 +1,20 @@
+import logging
+
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import status, viewsets
-# from .services import animal_search
-from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+# from .services import animal_search
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import Users
 
 from .models import Animals
 from .serializers import (AnimalCreateSerializer, AnimalSerializer,
-                          AnimalShortSerializer, FormAnimalCreateSerializer, FormAnimalSerializer)
-import logging
+                          AnimalShortSerializer, FormAnimalCreateSerializer,
+                          FormAnimalSerializer)
 
 logger = logging.getLogger("main")
 
@@ -57,15 +59,14 @@ class FormAnimalViewSet(ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-
 class AnimalFavouriteUserViewSet(APIView):
     def post(self, request, animal_id, *args, **kwargs):
         try:
             logger.info("first")
-            user = Users.objects.get(id=request.user.id)
-            logger.info('user find')
+            user = Users.objects.get(id=self.request.user.id)
+            logger.info("user find")
             animal = Animals.objects.get(id=animal_id)
-            logger.info('animal find')
+            logger.info("animal find")
 
             if animal in user.favourites.all():
                 user.favourites.remove(animal)
@@ -75,7 +76,7 @@ class AnimalFavouriteUserViewSet(APIView):
                 user.quantity_favourites += 1
 
             user.save()
-                
+
         except Exception as e:
             # Обработка ошибок при разборе уведомления
             return Response(
@@ -83,5 +84,6 @@ class AnimalFavouriteUserViewSet(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(
-            {"message": "Животное добавлено или удалено успешно"}, status=status.HTTP_200_OK
+            {"message": "Животное добавлено или удалено успешно"},
+            status=status.HTTP_200_OK,
         )

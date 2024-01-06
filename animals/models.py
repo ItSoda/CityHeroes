@@ -48,9 +48,7 @@ class FormAnimals(models.Model):
         verbose_name_plural = "Заявки"
 
     def __str__(self):
-        return (
-            f"Phone: {self.phone}"
-        )
+        return f"Phone: {self.phone}"
 
 
 # animals_index = Index("animals_index")
