@@ -32,6 +32,8 @@ class UserRegistSerializer(UserCreateSerializer):
 
 class UserProfile(UserSerializer):
     photo = ImageFieldFromURL()
+    forms = "animals.serializers.FormAnimalSerializer"
+    favourites = "animals.serializers.AnimalSerializer"
 
     class Meta(UserSerializer.Meta):
         model = Users
