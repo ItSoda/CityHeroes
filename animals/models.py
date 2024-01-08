@@ -25,7 +25,7 @@ class Animals(models.Model):
     species = models.CharField("Порода", max_length=200)
     age = models.PositiveIntegerField(default=0)
     content = models.TextField()
-    images = models.ManyToManyField(to=Images)
+    images = models.ManyToManyField(Images)
     user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
 
     class Meta:

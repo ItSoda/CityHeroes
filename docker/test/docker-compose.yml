@@ -23,9 +23,9 @@ services:
       - "6378:6379"
 
   api:
-    build: 
-      context: ../../.
-    image: cityheroes-api:test
+    # build: 
+    #   context: ../../.
+    image: itsoda14/cityheroes:latest
     command:
       - sh
       - -c

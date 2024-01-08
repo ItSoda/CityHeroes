@@ -15,7 +15,13 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Images
-        fields = "__all__"
+        fields = ("id", "title", "image")
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            representation['image'] = "http://red-store.site/media/" + str(instance.image)
+        return representation
 
 
 class AnimalCreateSerializer(serializers.ModelSerializer):
