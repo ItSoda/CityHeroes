@@ -1,23 +1,23 @@
 stages:
-  # - test
-  # - delivery
+  - test
+  - delivery
   - deploy
 
-# test-job:
-#   stage: test
-#   script:
-#     - docker-compose -f docker/test/docker-compose.yml down
-#     - docker-compose -f docker/test/docker-compose.yml build api
-#     - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
+test-job:
+  stage: test
+  script:
+    - docker-compose -f docker/test/docker-compose.yml down
+    - docker-compose -f docker/test/docker-compose.yml build api
+    - docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit
 
-# delivery-job:
-#   stage: delivery
-#   only:
-#     - main
-#   script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#     - docker tag itsoda14/cityheroes:latest $CI_REGISTRY_IMAGE
-#     - docker push $CI_REGISTRY_IMAGE
+delivery-job:
+  stage: delivery
+  only:
+    - main
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker tag itsoda14/cityheroes:latest $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
 
 deploy-job:
   stage: deploy
