@@ -92,7 +92,7 @@ class FormAnimalSerializer(serializers.ModelSerializer):
 
 
 class UserProfile(UserSerializer):
-    photo = ImageFieldFromURL()
+    photo = ImageSerializer(many=True)
     forms = FormAnimalSerializer(many=True)
     favourites = AnimalSerializer(many=True)
     class Meta(UserSerializer.Meta):
