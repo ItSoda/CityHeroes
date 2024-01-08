@@ -114,3 +114,9 @@ class UserProfile(UserSerializer):
             "favourites",
         )
         read_only_fields = ("password",)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.photo:
+            representation['photo'] = "http://red-store.site/media/" + str(instance.photo)
+        return representation
