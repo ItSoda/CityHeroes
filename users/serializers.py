@@ -36,3 +36,9 @@ class UserSerializer(UserSerializer):
         model = Users
         fields = ("id", "photo", "username")
         ref_name = "UserSerializerCustom"
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.photo:
+            representation['photo'] = "http://red-store.site/media/" + str(instance.photo)
+        return representation

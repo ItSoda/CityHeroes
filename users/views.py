@@ -13,7 +13,7 @@ from users.services import (EmailVerificationHandler, create_auto_payment,
                             create_payment, user_save_yookassa_payment_id)
 
 from .models import Users
-from .serializers import UserSerializer
+from animals.serializers import UserSerializer
 
 
 class UserViewSet(ModelViewSet):
